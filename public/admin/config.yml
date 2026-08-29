@@ -1,0 +1,155 @@
+backend:
+  name: github
+  repo: emicstllas/flazwebsite
+  branch: master
+  base_url: https://flaztechnicalservices.com
+  auth_endpoint: api/auth
+
+# Photos/files uploaded through the CMS land here and are committed to git,
+# served by Next.js like any other file under public/.
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: projects
+    label: Projects
+    folder: content/projects
+    create: true
+    delete: true
+    slug: "{{fields.id}}"
+    summary: "{{order}} — {{title}}"
+    sortable_fields: [order, title, year]
+    fields:
+      - { label: "Project ID (used in the URL, no spaces)", name: id, widget: string }
+      - { label: "Order (controls position — lower numbers first)", name: order, widget: number, value_type: int }
+      - { label: Title, name: title, widget: string }
+      - { label: "Full description", name: desc, widget: text }
+      - { label: "Short description (used on listing cards)", name: shortDesc, widget: string }
+      - { label: "Main photo", name: image, widget: image }
+      - { label: "Before photo (optional — enables before/after slider)", name: beforeImage, widget: image, required: false }
+      - label: "Gallery photos (drag to reorder)"
+        name: gallery
+        widget: list
+        field: { label: Photo, name: src, widget: image }
+      - label: "Tags"
+        name: tags
+        widget: list
+        field: { label: Tag, name: tag, widget: string }
+      - { label: Area, name: area, widget: string }
+      - { label: Year, name: year, widget: string }
+      - { label: "Scope of work", name: scope, widget: string }
+      - { label: Duration, name: duration, widget: string }
+
+  - name: settings
+    label: Site content
+    files:
+      - name: hero
+        label: "Homepage hero"
+        file: content/hero.json
+        fields:
+          - { label: Eyebrow, name: eyebrow, widget: string }
+          - { label: Heading, name: heading, widget: string }
+          - { label: Description, name: description, widget: text }
+          - { label: "Primary button label", name: primaryCtaLabel, widget: string }
+          - { label: "Primary button link", name: primaryCtaHref, widget: string }
+          - { label: "Secondary button label", name: secondaryCtaLabel, widget: string }
+          - { label: "Secondary button link", name: secondaryCtaHref, widget: string }
+          - label: "Background slides (drag to reorder)"
+            name: slides
+            widget: list
+            fields:
+              - { label: Photo, name: src, widget: image }
+              - { label: "Alt text (for accessibility)", name: alt, widget: string }
+
+      - name: whyUs
+        label: "Why us stats"
+        file: content/why-us.json
+        fields:
+          - label: "Stats (drag to reorder)"
+            name: stats
+            widget: list
+            fields:
+              - { label: "Text before the highlight", name: before, widget: string, required: false }
+              - { label: "Highlighted phrase (shown in teal)", name: highlight, widget: string }
+              - { label: "Text after the highlight", name: rest, widget: string, required: false }
+
+      - name: approach
+        label: "How we work"
+        file: content/approach.json
+        fields:
+          - { label: Eyebrow, name: eyebrow, widget: string }
+          - { label: "Heading — line 1", name: headingLine1, widget: string }
+          - { label: "Heading — line 2", name: headingLine2, widget: string }
+          - { label: Intro, name: intro, widget: text }
+          - { label: "Button label", name: ctaLabel, widget: string }
+          - { label: "Button link", name: ctaHref, widget: string }
+          - label: "Steps (drag to reorder)"
+            name: steps
+            widget: list
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: Body, name: body, widget: text }
+
+      - name: testimonials
+        label: Testimonials
+        file: content/testimonials.json
+        fields:
+          - { label: "Aggregate rating (e.g. 4.8)", name: aggregateRating, widget: string }
+          - { label: "Aggregate source (e.g. Google Reviews)", name: aggregateSource, widget: string }
+          - label: "Reviews (drag to reorder)"
+            name: reviews
+            widget: list
+            fields:
+              - { label: ID (short, no spaces), name: id, widget: string }
+              - { label: Quote, name: text, widget: text }
+              - { label: Name, name: name, widget: string }
+              - { label: "Role / property", name: role, widget: string }
+              - { label: "Country of origin", name: origin, widget: string }
+
+      - name: faq
+        label: FAQ
+        file: content/faq.json
+        fields:
+          - label: "Questions (drag to reorder)"
+            name: faqs
+            widget: list
+            fields:
+              - { label: Question, name: q, widget: string }
+              - { label: Answer, name: a, widget: text }
+
+      - name: siteSettings
+        label: "Contact & footer"
+        file: content/site-settings.json
+        fields:
+          - { label: "Phone (display text)", name: phone, widget: string }
+          - { label: "Phone link (tel:...)", name: phoneHref, widget: string }
+          - { label: Email, name: email, widget: string }
+          - { label: "WhatsApp link (https://wa.me/...)", name: whatsappHref, widget: string }
+          - { label: "Office address", name: address, widget: text }
+          - { label: "Footer tagline", name: footerTagline, widget: text }
+          - label: "Footer navigation links (drag to reorder)"
+            name: navLinks
+            widget: list
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Link, name: href, widget: string }
+          - label: "Footer service links (drag to reorder)"
+            name: serviceLinks
+            widget: list
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Link, name: href, widget: string }
+
+      - name: services
+        label: Services
+        file: content/services.json
+        fields:
+          - label: "Services (drag to reorder)"
+            name: services
+            widget: list
+            fields:
+              - { label: "Number (e.g. 01)", name: index, widget: string }
+              - { label: "Category label (e.g. HVAC)", name: category, widget: string }
+              - { label: Title, name: title, widget: string }
+              - { label: Description, name: desc, widget: text }
+              - { label: "Photo (not yet shown on homepage grid, used on /services)", name: imageSrc, widget: image }

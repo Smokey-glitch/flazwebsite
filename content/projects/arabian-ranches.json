@@ -1,0 +1,24 @@
+{
+  "id": "arabian-ranches",
+  "order": 2,
+  "title": "Arabian Ranches Family Villa",
+  "desc": "Modern comfort meets oriental elegance across a complete renovation blending warm materials with precise craftsmanship. Structural changes were approved and executed within a single continuous build phase.",
+  "shortDesc": "Complete renovation blending modern comfort with oriental elegance.",
+  "image": "/images/pexels-artbovich-7174108.jpg",
+  "beforeImage": "/images/pexels-ranamatloob567-34378029.jpg",
+  "gallery": [
+    "/images/pexels-artbovich-7174108.jpg",
+    "/images/pexels-semih-basaran-353570345-29679172.jpg",
+    "/images/pexels-ranamatloob567-34378030.jpg",
+    "/images/pexels-ranamatloob567-34378029.jpg",
+    "/images/pexels-zak-mir-2158162344-35492984.jpg",
+    "/images/pexels-ahmed-bahaa-2157317588-34823937.jpg",
+    "/images/pexels-artbovich-7174108.jpg",
+    "/images/pexels-semih-basaran-353570345-29679172.jpg"
+  ],
+  "tags": ["Villa", "Renovation"],
+  "area": "Arabian Ranches",
+  "year": "2024",
+  "scope": "Full Renovation, Interior Design, Structural",
+  "duration": "10 weeks"
+}

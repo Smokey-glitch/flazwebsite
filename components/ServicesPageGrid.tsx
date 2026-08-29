@@ -1,61 +1,6 @@
-const services = [
-  {
-    index: "01",
-    category: "HVAC",
-    title: "Air-Conditioning, Ventilation & Air Filtration Systems",
-    desc: "Installation, servicing, and maintenance for residential and commercial properties across Dubai.",
-    imageSrc: "/images/services/hvac.jpg",
-  },
-  {
-    index: "02",
-    category: "PLUMBING",
-    title: "Plumbing & Sanitary Installation",
-    desc: "Complete plumbing systems across villas, apartments, offices, and retail spaces.",
-    imageSrc: "/images/services/plumbing.jpg",
-  },
-  {
-    index: "03",
-    category: "TILING",
-    title: "Floor & Wall Tiling Works",
-    desc: "Premium materials, precise cuts, and professional finishes for every surface.",
-    imageSrc: "/images/services/tiling.jpg",
-  },
-  {
-    index: "04",
-    category: "PAINTING",
-    title: "Painting Contracting",
-    desc: "Interior and exterior painting with high-quality coatings and surface preparation.",
-    imageSrc: "/images/services/painting.jpg",
-  },
-  {
-    index: "05",
-    category: "CARPENTRY",
-    title: "Carpentry & Wood Flooring Works",
-    desc: "Custom carpentry and wood flooring tailored to your property's specification.",
-    imageSrc: "/images/services/carpentry.jpg",
-  },
-  {
-    index: "06",
-    category: "WALLPAPER",
-    title: "Wallpaper Fixing Works",
-    desc: "Professional installation with careful seam alignment across all interior spaces.",
-    imageSrc: "/images/services/wallpaper.jpg",
-  },
-  {
-    index: "07",
-    category: "CEILINGS",
-    title: "False Ceiling & Light Partitions",
-    desc: "Design and installation of false ceilings and partition systems for modern interiors.",
-    imageSrc: "/images/services/ceiling.jpg",
-  },
-  {
-    index: "08",
-    category: "PLASTER",
-    title: "Plaster Works",
-    desc: "Smooth, durable wall and ceiling finishes across all property types.",
-    imageSrc: "/images/services/plaster.jpg",
-  },
-];
+import servicesData from "@/content/services.json";
+
+const { services } = servicesData;
 
 export default function ServicesPageGrid() {
   return (

@@ -1,30 +1,9 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import testimonialsData from "@/content/testimonials.json";
 
-const reviews = [
-  {
-    id: "james",
-    text: "The attention to detail throughout the project was outstanding. My villa now looks and feels completely different — every material was exactly what we agreed on, and the team kept to the schedule without compromise.",
-    name: "James",
-    role: "Villa in Jumeirah Hills",
-    origin: "UK",
-  },
-  {
-    id: "michael",
-    text: "Professional, knowledgeable, and genuinely invested in the result. They delivered exactly what they promised — a functional, well-finished space — and the whole process was smoother than I expected.",
-    name: "Michael",
-    role: "Villa in The Lakes",
-    origin: "Germany",
-  },
-  {
-    id: "sofia",
-    text: "They listened to what I wanted, offered practical solutions where I had none, and executed the renovation with real precision. The handover was clean and on time. I would use them again without hesitation.",
-    name: "Sofia",
-    role: "Villa in Springs",
-    origin: "Spain",
-  },
-];
+const { reviews, aggregateRating, aggregateSource } = testimonialsData;
 
 function quoteFontSize(text: string): string {
   const len = text.length;
@@ -80,12 +59,12 @@ export default function TestimonialsSection() {
                 className="font-medium text-[var(--flaz-dark)] tabular-nums"
                 style={{ fontSize: "clamp(28px, 3vw, 40px)" }}
               >
-                4.8
+                {aggregateRating}
               </span>
               <span className="text-[13px] font-light text-gray-400">/5</span>
             </div>
             <Stars size={13} />
-            <p className="text-[11px] font-light text-gray-400 mt-0.5">Google Reviews</p>
+            <p className="text-[11px] font-light text-gray-400 mt-0.5">{aggregateSource}</p>
           </div>
         </div>
       </div>

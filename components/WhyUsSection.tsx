@@ -1,30 +1,6 @@
-const stats = [
-  {
-    before: "Expert solutions for ",
-    highlight: "modern technical needs",
-    rest: "",
-  },
-  {
-    before: "Committed to delivering ",
-    highlight: "exceptional outcomes",
-    rest: "",
-  },
-  {
-     before: "Powered by a team that ",
-    highlight: "gets things done",
-    rest: "",
-  },
-  {
-    before: "We take care of permits —",
-    highlight: "start to finish",
-    rest: "",
-  },
-  {
-    before: "Every project comes with ",
-    highlight: "trusted warranty support",
-    rest: "",
-  },
-];
+import whyUsData from "@/content/why-us.json";
+
+const { stats } = whyUsData;
 
 export default function WhyUsSection() {
   return (

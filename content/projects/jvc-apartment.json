@@ -1,0 +1,24 @@
+{
+  "id": "jvc-apartment",
+  "order": 5,
+  "title": "JVC Studio Conversion",
+  "desc": "Smart layout redesign converting a standard studio into a functional one-bedroom with built-in storage, a sliding partition wall, and modern finishes throughout. Proof that clever planning beats extra square footage.",
+  "shortDesc": "Layout redesign converting a studio into a functional one-bedroom.",
+  "image": "/images/pexels-ranamatloob567-34378029.jpg",
+  "beforeImage": "/images/pexels-artbovich-7174108.jpg",
+  "gallery": [
+    "/images/pexels-ranamatloob567-34378029.jpg",
+    "/images/pexels-zak-mir-2158162344-35492984.jpg",
+    "/images/pexels-ahmed-bahaa-2157317588-34823937.jpg",
+    "/images/pexels-artbovich-7174108.jpg",
+    "/images/pexels-semih-basaran-353570345-29679172.jpg",
+    "/images/pexels-ranamatloob567-34378030.jpg",
+    "/images/pexels-ranamatloob567-34378029.jpg",
+    "/images/pexels-zak-mir-2158162344-35492984.jpg"
+  ],
+  "tags": ["Apartment", "Renovation"],
+  "area": "Jumeirah Village Circle",
+  "year": "2025",
+  "scope": "Layout Redesign, Fit-out, Plumbing",
+  "duration": "6 weeks"
+}

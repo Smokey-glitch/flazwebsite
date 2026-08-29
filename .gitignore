@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated from content/projects/*.json by scripts/generate-projects.mjs
+/lib/projects.generated.json

@@ -1,0 +1,24 @@
+{
+  "id": "damac-office",
+  "order": 3,
+  "title": "DAMAC Smart Heights Office",
+  "desc": "Welcoming lounge, open work zones, and quiet meeting rooms built for daily use. The brief was a workspace that feels professional to clients and comfortable to the team — we delivered both without compromise.",
+  "shortDesc": "Functional workspace with lounge, open zones, and dedicated meeting rooms.",
+  "image": "/images/pexels-semih-basaran-353570345-29679172.jpg",
+  "beforeImage": "/images/pexels-zak-mir-2158162344-35492984.jpg",
+  "gallery": [
+    "/images/pexels-semih-basaran-353570345-29679172.jpg",
+    "/images/pexels-ranamatloob567-34378030.jpg",
+    "/images/pexels-ranamatloob567-34378029.jpg",
+    "/images/pexels-zak-mir-2158162344-35492984.jpg",
+    "/images/pexels-ahmed-bahaa-2157317588-34823937.jpg",
+    "/images/pexels-artbovich-7174108.jpg",
+    "/images/pexels-semih-basaran-353570345-29679172.jpg",
+    "/images/pexels-ranamatloob567-34378030.jpg"
+  ],
+  "tags": ["Commercial", "Fit-out"],
+  "area": "Business Bay",
+  "year": "2025",
+  "scope": "Commercial Fit-out, MEP, Partitioning",
+  "duration": "8 weeks"
+}

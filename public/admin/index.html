@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Flaz Technical Services — Content Admin</title>
+    <!-- Absolute path: the page is served at /admin (via a Next.js rewrite),
+         so a relative "config.yml" would resolve against "/" and 404. -->
+    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
+  </head>
+  <body>
+    <!-- Must be in <body>, not <head> — Decap's bootstrap script mounts into
+         document.body immediately on execution, which is still null if this
+         runs while the parser is still inside <head>. -->
+    <script src="https://unpkg.com/decap-cms@^3.3.3/dist/decap-cms.js"></script>
+  </body>
+</html>

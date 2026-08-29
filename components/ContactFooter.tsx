@@ -2,21 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import siteSettings from "@/content/site-settings.json";
 
-const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "#services" },
-  { label: "Projects", href: "/projects" },
-];
-
-const serviceLinks = [
-  { label: "Villa transformations", href: "#services" },
-  { label: "Commercial fit-out", href: "#services" },
-  { label: "Apartment renovation", href: "#services" },
-  { label: "Signature services", href: "#services" },
-  { label: "HVAC & MEP works", href: "#services" },
-  { label: "NOC & permits", href: "#services" },
-];
+const { phone, phoneHref, email, whatsappHref, address, footerTagline, navLinks, serviceLinks } =
+  siteSettings;
 
 export default function ContactFooter() {
   return (
@@ -85,10 +74,10 @@ export default function ContactFooter() {
                 Phone
               </p>
               <a
-                href="tel:+971542589881"
+                href={phoneHref}
                 className="text-[14px] font-light text-white/60 hover:text-white transition-colors"
               >
-                +971 54 258 9881
+                {phone}
               </a>
             </div>
             <div className="min-w-0">
@@ -99,10 +88,10 @@ export default function ContactFooter() {
                 Email
               </p>
               <a
-                href="mailto:info@flaztechnicalservices.com"
+                href={`mailto:${email}`}
                 className="text-[14px] font-light text-white/60 hover:text-white transition-colors break-all"
               >
-                info@flaztechnicalservices.com
+                {email}
               </a>
             </div>
             <div>
@@ -113,7 +102,7 @@ export default function ContactFooter() {
                 WhatsApp
               </p>
               <a
-                href="https://wa.me/971542589881"
+                href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-[14px] font-light text-white/60 hover:text-white transition-colors"
@@ -152,7 +141,7 @@ export default function ContactFooter() {
               className="text-[14px] font-light leading-relaxed mb-10"
               style={{ color: "rgba(255,255,255,0.38)", maxWidth: "38ch" }}
             >
-              Full-cycle renovation and technical services for villas, apartments, and commercial spaces across Dubai.
+              {footerTagline}
             </p>
 
             {/* Links */}
@@ -210,7 +199,7 @@ export default function ContactFooter() {
               className="text-[12px] font-light"
               style={{ color: "rgba(255,255,255,0.28)" }}
             >
-              Office 510 B, 5th Floor, Al Barsha Business Center, Al Barsha 1, Dubai, United Arab Emirates
+              {address}
             </p>
           </div>
         </div>
@@ -230,13 +219,13 @@ export default function ContactFooter() {
         </p>
         <div className="flex items-center gap-5">
           <Link
-            href="#"
+            href="/privacy-policy"
             className="text-[12px] font-light text-white/25 hover:text-white/50 transition-colors"
           >
             Privacy policy
           </Link>
           <Link
-            href="#"
+            href="/terms-of-service"
             className="text-[12px] font-light text-white/25 hover:text-white/50 transition-colors"
           >
             Terms of service

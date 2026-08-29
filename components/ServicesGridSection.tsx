@@ -1,37 +1,6 @@
-const services = [
-  {
-    title: "Air-Conditioning, Ventilation & Air Filtration Systems",
-    desc: "Professional HVAC installation, servicing, and maintenance for residential and commercial properties.",
-  },
-  {
-    title: "Plumbing & Sanitary Installation",
-    desc: "Complete plumbing systems and sanitary installations across all property types.",
-  },
-  {
-    title: "Floor & Wall Tiling Works",
-    desc: "Expert tiling for floors and walls using premium materials and precision finishes.",
-  },
-  {
-    title: "Painting Contracting",
-    desc: "Interior and exterior painting with high-quality coatings and professional finishing.",
-  },
-  {
-    title: "Carpentry & Wood Flooring Works",
-    desc: "Custom carpentry and wood flooring installations tailored to your property's design.",
-  },
-  {
-    title: "Wallpaper Fixing Works",
-    desc: "Professional wallpaper installation and fixing for all interior spaces.",
-  },
-  {
-    title: "False Ceiling & Light Partitions Installation",
-    desc: "Design and installation of false ceilings and light partition systems for modern interiors.",
-  },
-  {
-    title: "Plaster Works",
-    desc: "High-quality plastering for smooth, durable wall and ceiling finishes.",
-  },
-];
+import servicesData from "@/content/services.json";
+
+const { services } = servicesData;
 
 export default function ServicesGridSection() {
   return (

@@ -1,0 +1,23 @@
+{
+  "eyebrow": "Renovation & technical services · Dubai",
+  "heading": "Your trusted technical services partner",
+  "description": "We handle everything from design and engineering to approvals and construction, across villas, apartments, offices, and retail spaces.",
+  "primaryCtaLabel": "Get free consultation",
+  "primaryCtaHref": "#contact",
+  "secondaryCtaLabel": "View our work",
+  "secondaryCtaHref": "/projects",
+  "slides": [
+    {
+      "src": "/images/pexels-artbovich-7174105.jpg",
+      "alt": "Villa renovation by Flaz Technical Services"
+    },
+    {
+      "src": "/images/pexels-ranamatloob567-34378029.jpg",
+      "alt": "Apartment fit-out by Flaz Technical Services"
+    },
+    {
+      "src": "/images/pexels-semih-basaran-353570345-29679172.jpg",
+      "alt": "Commercial space by Flaz Technical Services"
+    }
+  ]
+}

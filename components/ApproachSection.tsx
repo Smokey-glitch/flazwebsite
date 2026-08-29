@@ -1,23 +1,7 @@
 import Link from "next/link";
+import approachData from "@/content/approach.json";
 
-const steps = [
-  {
-    title: "Survey & scoping",
-    body: "We visit the site, assess the full scope, and produce a detailed written quotation — fixed price agreed before anything starts. No estimates, no surprises.",
-  },
-  {
-    title: "Dedicated oversight",
-    body: "Every project gets a named project manager and site engineer assigned from day one. One person to call, one person accountable for the entire job.",
-  },
-  {
-    title: "Live progress updates",
-    body: "Weekly photo reports and progress calls so you always know exactly where your project stands — whether you're on site or overseas.",
-  },
-  {
-    title: "Clean handover",
-    body: "A final walkthrough, snag list cleared, and all documentation handed over. We don't close a project until you're satisfied.",
-  },
-];
+const { eyebrow, headingLine1, headingLine2, intro, ctaLabel, ctaHref, steps } = approachData;
 
 export default function ApproachSection() {
   return (
@@ -30,25 +14,25 @@ export default function ApproachSection() {
             className="text-[11px] uppercase tracking-[0.2em] font-medium mb-4"
             style={{ color: "var(--flaz-teal)" }}
           >
-            How we work
+            {eyebrow}
           </p>
           <h2
             className="font-medium text-[var(--flaz-dark)] tracking-tight leading-tight mb-6"
             style={{ fontSize: "clamp(24px, 3.4vw, 48px)" }}
           >
-            Structured delivery.<br />Every time.
+            {headingLine1}<br />{headingLine2}
           </h2>
           <p
             className="font-light text-gray-500 leading-relaxed mb-10"
             style={{ fontSize: "clamp(15px, 1.5vw, 18px)", maxWidth: "36ch" }}
           >
-            Every Flaz project follows the same four-stage process — so you always know what happens next, who is responsible, and where your project stands.
+            {intro}
           </p>
           <Link
-            href="#contact"
+            href={ctaHref}
             className="flaz-btn-teal inline-flex items-center gap-2 text-[14px] font-medium px-5 py-3 rounded-sm text-white"
           >
-            Get free consultation
+            {ctaLabel}
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
               <line x1="5" y1="12" x2="19" y2="12" />
               <polyline points="12 5 19 12 12 19" />

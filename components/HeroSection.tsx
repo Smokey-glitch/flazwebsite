@@ -3,21 +3,18 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import heroData from "@/content/hero.json";
 
-const slides = [
-  {
-    src: "/images/pexels-artbovich-7174105.jpg",
-    alt: "Villa renovation by Flaz Technical Services",
-  },
-  {
-    src: "/images/pexels-ranamatloob567-34378029.jpg",
-    alt: "Apartment fit-out by Flaz Technical Services",
-  },
-  {
-    src: "/images/pexels-semih-basaran-353570345-29679172.jpg",
-    alt: "Commercial space by Flaz Technical Services",
-  },
-];
+const {
+  eyebrow,
+  heading,
+  description,
+  primaryCtaLabel,
+  primaryCtaHref,
+  secondaryCtaLabel,
+  secondaryCtaHref,
+  slides,
+} = heroData;
 
 
 export default function HeroSection() {
@@ -96,7 +93,7 @@ export default function HeroSection() {
               className="text-[10px] uppercase tracking-[0.22em] font-medium"
               style={{ color: "var(--flaz-teal)" }}
             >
-              Renovation & technical services · Dubai
+              {eyebrow}
             </p>
 
             <h1
@@ -108,39 +105,35 @@ export default function HeroSection() {
                 } as React.CSSProperties
               }
             >
-              Your trusted technical services partner
+              {heading}
             </h1>
 
             <p
               className="hidden md:block font-light leading-[1.7]"
               style={{ color: "rgba(255,255,255,0.65)", fontSize: "clamp(13px, 1.3vw, 17px)", maxWidth: "52ch" }}
             >
-              We handle everything from{" "}
-              <span style={{ color: "var(--flaz-teal)" }}>design and engineering</span>{" "}
-              to{" "}
-              <span style={{ color: "var(--flaz-teal)" }}>approvals and construction</span>
-              , across villas, apartments, offices, and retail spaces.
+              {description}
             </p>
 
             <div className="flex items-center gap-4 flex-wrap mt-1">
               <Link
-                href="#contact"
+                href={primaryCtaHref}
                 className="inline-flex items-center gap-2 text-white text-[13px] font-medium px-6 py-3 rounded-sm transition-colors"
                 style={{ backgroundColor: "var(--flaz-teal)" }}
                 onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--flaz-teal-dark)")}
                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--flaz-teal)")}
               >
-                Get free consultation
+                {primaryCtaLabel}
                 <ArrowRight />
               </Link>
               <Link
-                href="/projects"
+                href={secondaryCtaHref}
                 className="inline-flex items-center gap-1.5 text-[13px] font-light transition-colors"
                 style={{ color: "rgba(255,255,255,0.65)" }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "white")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.65)")}
               >
-                View our work
+                {secondaryCtaLabel}
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="5" y1="12" x2="19" y2="12" />
                   <polyline points="12 5 19 12 12 19" />

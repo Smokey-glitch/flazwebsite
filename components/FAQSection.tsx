@@ -2,33 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import faqData from "@/content/faq.json";
 
-const faqs = [
-  {
-    q: "Do you offer full-cycle technical and fit-out services?",
-    a: "Yes. We handle everything from initial consultation and design through to execution and handover — including electrical, plumbing, civil works, MEP, and finishing.",
-  },
-  {
-    q: "What is the step-by-step process for a project?",
-    a: "We start with a site survey and consultation, then prepare a detailed scope and quotation. Once approved, we assign a project manager, begin works, and provide weekly progress updates until final handover.",
-  },
-  {
-    q: "Who manages and handles the project process?",
-    a: "Every project is assigned a dedicated project manager and site engineer who oversee the full scope, coordinate trades, and serve as your single point of contact throughout.",
-  },
-  {
-    q: "Do I need approvals or NOCs for my project?",
-    a: "For most renovation and fit-out works in Dubai you will need NOC approvals from the relevant authorities or your developer. Our team handles all permit applications and submissions on your behalf.",
-  },
-  {
-    q: "How long does a project typically take?",
-    a: "Timelines vary by scope — a standard apartment fit-out takes 4–8 weeks, while larger villa or commercial projects can range from 2–6 months. We provide a detailed schedule before work begins.",
-  },
-  {
-    q: "Can I live in the property during the works?",
-    a: "In many cases yes, depending on the scope. For full fit-outs or major civil works we recommend vacating temporarily. We discuss this during the consultation and plan accordingly to minimise disruption.",
-  },
-];
+const { faqs } = faqData;
 
 export default function FAQSection() {
   const [active, setActive] = useState(0);
