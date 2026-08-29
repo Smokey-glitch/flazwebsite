@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "../globals.css";
 import Navbar from "@/components/Navbar";
 // import FloatingWidget from "@/components/FloatingWidget"; // hidden for now
 import ContactModal from "@/components/ContactModal";

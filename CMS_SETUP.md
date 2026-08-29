@@ -1,54 +1,69 @@
-# CMS setup (Decap CMS)
+# Studio setup
 
-The site's content — projects, services, hero copy, testimonials, FAQ, footer info — lives in `content/*.json` and is editable at `/admin` without touching code. Saves in the CMS commit straight to this GitHub repo (`emicstllas/flazwebsite`) and Vercel redeploys automatically.
+The site's content — projects, services, hero copy, testimonials, FAQ, footer info — lives in `content/*.json` and is editable at a custom-built admin panel ("studio") without touching code. It's a hand-built Next.js admin app (not a third-party CMS), gated by a shared password, living on its own subdomain: **cms.flaztechnicalservices.com**. Saves commit directly to this GitHub repo (`emicstllas/flazwebsite`, `master` branch) using one server-side token — editors don't need GitHub accounts.
 
-This is a one-time setup, done once by whoever has admin access to the GitHub repo and the Vercel project.
+This is a one-time setup, done once by whoever manages the GitHub repo, the Vercel project, and DNS for flaztechnicalservices.com.
 
-## 1. Create a GitHub OAuth App
+## 1. Generate a GitHub token for the studio to write with
 
-The CMS needs to authenticate editors against GitHub. This site is hosted on Vercel (not Netlify), so it uses a small self-hosted OAuth provider (`app/api/auth`, `app/api/callback`) instead of Netlify's built-in one.
+1. Go to GitHub → Settings → Developer settings → [Fine-grained personal access tokens](https://github.com/settings/personal-access-tokens/new).
+2. Repository access: **Only select repositories** → `emicstllas/flazwebsite`.
+3. Permissions: **Contents** → **Read and write**. Leave everything else at no access.
+4. Generate it and copy the token — this is used for every studio save, regardless of which editor is logged in.
 
-1. Go to GitHub → Settings → Developer settings → [OAuth Apps](https://github.com/settings/developers) → **New OAuth App**.
-2. Fill in:
-   - **Application name**: `Flaz Technical Services CMS` (or anything recognizable)
-   - **Homepage URL**: `https://www.flaztechnicalservices.com`
-   - **Redirect URI**: `https://www.flaztechnicalservices.com/api/callback`
-
-   Vercel serves the site canonically on the `www` subdomain (the bare domain redirects to it), so `www` is what must match everywhere: the OAuth App's redirect URI, `base_url` below, and the URL editors actually use to reach `/admin`. It's fine to also add `https://flaztechnicalservices.com/api/callback` as a second redirect URI for safety, but `www` is the one that has to be exactly right — Decap validates the login handshake against `base_url` and silently drops it (no error, just hangs on "Signing in…") if it doesn't match the domain the page actually loaded from.
-3. Create it, then generate a **Client secret**. You'll get a **Client ID** and a **Client secret** — copy both.
-
-## 2. Set environment variables
-
-Add these two variables:
+Add it as an environment variable:
 
 ```
-GITHUB_OAUTH_CLIENT_ID=<the client id from step 1>
-GITHUB_OAUTH_CLIENT_SECRET=<the client secret from step 1>
+GITHUB_CONTENT_TOKEN=<the token>
 ```
 
-- **Locally**: add them to `.env.local` (same file that already holds `RESEND_API_KEY`).
-- **On Vercel**: Project Settings → Environment Variables, add both for Production (and Preview if you want the CMS to work on preview deployments too).
+## 2. Choose a studio password
 
-## 3. `public/admin/config.yml` — already set
+Both editors share one password. Generate its hash locally (never store the plain password anywhere):
 
-`base_url` in [public/admin/config.yml](public/admin/config.yml) is already set to `https://www.flaztechnicalservices.com`, matching the OAuth App's redirect URI above. If the production domain ever changes, update both together — and always use whichever domain (`www` or bare) Vercel actually serves the site on, not just any domain that resolves.
+```
+node scripts/hash-studio-password.mjs "the-password-you-choose"
+```
 
-## 4. Add editors as GitHub collaborators
+This prints a `STUDIO_PASSWORD_HASH=...` line — copy the whole thing.
 
-Both editors need a (free) GitHub account, and need to be added as collaborators on `emicstllas/flazwebsite`:
+## 3. Generate a session secret
 
-GitHub repo → Settings → Collaborators → **Add people** → enter their GitHub username or email.
+```
+openssl rand -hex 32
+```
 
-They'll get an invite email — once accepted, they can log in at `/admin` with their GitHub account. The CMS UI hides all the git mechanics; they just see a login screen and content forms.
+Use the output as:
 
-## 5. Using the CMS
+```
+STUDIO_SESSION_SECRET=<the random hex string>
+```
 
-- Visit `https://<your-domain>/admin`, log in with GitHub.
-- Content is grouped into **Projects** (add/edit/delete individual projects, drag to reorder via the "Order" field) and **Site content** (Homepage hero, Why us stats, How we work, Testimonials, FAQ, Contact & footer, Services) — each a single form.
-- Any field showing a list (gallery photos, reviews, FAQ entries, steps, nav links) has a drag handle for reordering.
-- Saving in the CMS commits directly to the `master` branch, which triggers a normal Vercel deploy — changes go live within a minute or two, same as any other push.
+This signs login sessions. Rotating it later instantly logs everyone out (e.g. if a laptop is lost).
+
+## 4. Set all three environment variables
+
+- **Locally**: add `GITHUB_CONTENT_TOKEN`, `STUDIO_PASSWORD_HASH`, and `STUDIO_SESSION_SECRET` to `.env.local` (same file that already holds `RESEND_API_KEY`).
+- **On Vercel**: Project Settings → Environment Variables, add all three for Production (and Preview if you want the studio to work on preview deployments too).
+
+## 5. Add the `cms` subdomain
+
+1. Vercel → Project Settings → Domains → **Add** → `cms.flaztechnicalservices.com`.
+2. Vercel will show a CNAME target (e.g. `cname.vercel-dns.com`) — add that CNAME record at whichever registrar/DNS provider manages `flaztechnicalservices.com`.
+3. Once DNS propagates, `https://cms.flaztechnicalservices.com` serves the studio automatically — it's the same Vercel project and deployment as the main site, just routed differently by [proxy.ts](proxy.ts) based on the request's hostname.
+
+**Local development doesn't need any of this** — the studio is directly reachable at `http://localhost:3000/studio` with no DNS setup, since the subdomain routing is only a production convenience.
+
+## 6. Using the studio
+
+- Visit `https://cms.flaztechnicalservices.com`, log in with the shared password.
+- The sidebar lists **Projects** (add/edit/delete, drag to reorder) and each content section (Hero, Why Us, How We Work, Services, Testimonials, FAQ, Contact & Footer).
+- Any list field (gallery photos, reviews, FAQ entries, steps, nav links) has a `⠿` drag handle for reordering.
+- Saving commits directly to `master`, which triggers a normal Vercel deploy — changes go live within a minute or two.
+- Sessions last 7 days; use **Log out** in the sidebar, or just let it expire.
 
 ## Known limits
 
-- The homepage "Selected work" teaser and the `/projects` grid use fixed layouts sized for **exactly 6 projects** (4 feed the homepage teaser, all 6 feed the full grid). Editing existing projects' text/photos and reordering them is fully supported; adding a 7th or dropping below 6 will leave a visual gap until the layout is redesigned to handle any number of projects (a separate follow-up, not part of this CMS).
-- Uploaded photos are committed into `public/images/uploads/` in the repo — there's no external media host, so the repo will grow with every new photo (fine at this site's scale).
+- The homepage "Selected work" teaser and the `/projects` grid use fixed layouts sized for **exactly 6 projects** (4 feed the homepage teaser, all 6 feed the full grid). Editing and reordering existing projects is fully supported; adding a 7th or dropping below 6 will leave a visual gap until those layouts are redesigned to handle any number of projects — a separate follow-up, not part of this studio.
+- Uploaded photos are committed into `public/images/uploads/` in the repo — there's no external media host, so the repo grows with every new photo (fine at this site's scale). They're automatically compressed to WebP client-side before upload to keep commits small.
+- One shared login for both editors — there's no per-editor audit trail in git history (all studio commits show the same token's author). Fine for a 2-person team; would need per-user GitHub OAuth again if that ever matters.
