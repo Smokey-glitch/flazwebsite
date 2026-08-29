@@ -39,17 +39,32 @@ export async function GET(request: NextRequest) {
     "\\u003c"
   );
 
-  const html = `<!doctype html><html><body><script>
+  const html = `<!doctype html><html><body><p id="status" style="font-family:sans-serif;padding:24px">Signing in&hellip;</p><script>
 (function() {
-  function receiveMessage(e) {
-    window.opener.postMessage(
-      'authorization:github:success:${payload}',
-      e.origin
-    );
-    window.removeEventListener('message', receiveMessage, false);
+  var statusEl = document.getElementById('status');
+  function fail(msg) {
+    statusEl.textContent = msg;
+    statusEl.style.color = '#b91c1c';
   }
-  window.addEventListener('message', receiveMessage, false);
-  window.opener.postMessage('authorizing:github', '*');
+  if (!window.opener) {
+    fail('No opener window found. This page must be opened as a popup from the CMS admin page — close this tab and click "Login with GitHub" again from /admin.');
+    return;
+  }
+  try {
+    function receiveMessage(e) {
+      window.opener.postMessage(
+        'authorization:github:success:${payload}',
+        e.origin
+      );
+      window.removeEventListener('message', receiveMessage, false);
+      statusEl.textContent = 'Signed in — you can close this window.';
+      setTimeout(function () { window.close(); }, 300);
+    }
+    window.addEventListener('message', receiveMessage, false);
+    window.opener.postMessage('authorizing:github', '*');
+  } catch (err) {
+    fail('Error completing sign-in: ' + (err && err.message ? err.message : err));
+  }
 })();
 </script></body></html>`;
 
