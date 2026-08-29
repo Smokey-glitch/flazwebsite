@@ -2,7 +2,7 @@ backend:
   name: github
   repo: emicstllas/flazwebsite
   branch: master
-  base_url: https://flaztechnicalservices.com
+  base_url: https://www.flaztechnicalservices.com
   auth_endpoint: api/auth
 
 # Photos/files uploaded through the CMS land here and are committed to git,

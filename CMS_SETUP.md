@@ -11,8 +11,10 @@ The CMS needs to authenticate editors against GitHub. This site is hosted on Ver
 1. Go to GitHub → Settings → Developer settings → [OAuth Apps](https://github.com/settings/developers) → **New OAuth App**.
 2. Fill in:
    - **Application name**: `Flaz Technical Services CMS` (or anything recognizable)
-   - **Homepage URL**: `https://flaztechnicalservices.com`
-   - **Authorization callback URL**: `https://flaztechnicalservices.com/api/callback`
+   - **Homepage URL**: `https://www.flaztechnicalservices.com`
+   - **Redirect URI**: `https://www.flaztechnicalservices.com/api/callback`
+
+   Vercel serves the site canonically on the `www` subdomain (the bare domain redirects to it), so `www` is what must match everywhere: the OAuth App's redirect URI, `base_url` below, and the URL editors actually use to reach `/admin`. It's fine to also add `https://flaztechnicalservices.com/api/callback` as a second redirect URI for safety, but `www` is the one that has to be exactly right — Decap validates the login handshake against `base_url` and silently drops it (no error, just hangs on "Signing in…") if it doesn't match the domain the page actually loaded from.
 3. Create it, then generate a **Client secret**. You'll get a **Client ID** and a **Client secret** — copy both.
 
 ## 2. Set environment variables
@@ -29,7 +31,7 @@ GITHUB_OAUTH_CLIENT_SECRET=<the client secret from step 1>
 
 ## 3. `public/admin/config.yml` — already set
 
-`base_url` in [public/admin/config.yml](public/admin/config.yml) is already set to `https://flaztechnicalservices.com`, matching the OAuth App's callback URL above. If the production domain ever changes, update both together.
+`base_url` in [public/admin/config.yml](public/admin/config.yml) is already set to `https://www.flaztechnicalservices.com`, matching the OAuth App's redirect URI above. If the production domain ever changes, update both together — and always use whichever domain (`www` or bare) Vercel actually serves the site on, not just any domain that resolves.
 
 ## 4. Add editors as GitHub collaborators
 
