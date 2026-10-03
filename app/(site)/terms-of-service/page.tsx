@@ -86,7 +86,7 @@ export default function TermsOfServicePage() {
             <br />
             info@flaztechnicalservices.com
             <br />
-            +971 54 258 9881
+            +971 54 258 9887
           </p>
         </LegalSection>
       </LegalPageLayout>

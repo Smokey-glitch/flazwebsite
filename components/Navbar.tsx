@@ -92,7 +92,7 @@ export default function Navbar() {
         {/* Desktop right */}
         <div className="hidden lg:flex items-center gap-5">
           <a
-            href="https://wa.me/971542589881"
+            href="https://wa.me/971542589887"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center w-8 h-8 rounded-full transition-colors"
@@ -117,7 +117,7 @@ export default function Navbar() {
         {/* Mobile right */}
         <div className="flex lg:hidden items-center gap-2">
           <a
-            href="https://wa.me/971542589881"
+            href="https://wa.me/971542589887"
             target="_blank"
             rel="noopener noreferrer"
             className="p-2 transition-colors"
