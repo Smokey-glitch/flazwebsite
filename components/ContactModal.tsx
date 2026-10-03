@@ -238,7 +238,7 @@ export default function ContactModal() {
             {/* Right — Image */}
             <div className="hidden md:block relative" style={{ minHeight: "480px" }}>
               <Image
-                src="/images/pexels-artbovich-7174108.jpg"
+                src="/images/dubai-apartment-living.jpg"
                 alt="Flaz property transformation"
                 fill
                 className="object-cover"

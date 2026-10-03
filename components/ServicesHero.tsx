@@ -16,7 +16,7 @@ export default function ServicesHero() {
           style={{ height: "clamp(420px, 55vw, 720px)" }}
         >
           <Image
-            src="/images/pexels-artbovich-7174105.jpg"
+            src="/images/dubai-villa-exterior.jpg"
             alt="Flaz Technical Services — professional works"
             fill
             priority

@@ -6,25 +6,25 @@ const services = [
     id: "villa",
     title: "Luxury villa transformations",
     desc: "Complete villa renovation — from concept and layout to finishes and furnishing.",
-    image: "/images/pexels-ranamatloob567-34378029.jpg",
+    image: "/images/dubai-villa-pool.jpg",
   },
   {
     id: "commercial",
     title: "Commercial space reinvention",
     desc: "Full renovation and fit-out for offices, showrooms, and retail spaces.",
-    image: "/images/pexels-semih-basaran-353570345-29679172.jpg",
+    image: "/images/dubai-warehouse-shell.jpg",
   },
   {
     id: "apartment",
     title: "Modern apartment fit-out",
     desc: "Smart layouts, premium materials, and turnkey execution.",
-    image: "/images/pexels-artbovich-7174108.jpg",
+    image: "/images/dubai-apartment-living.jpg",
   },
   {
     id: "signature",
     title: "Signature services",
     desc: "Developed and executed in collaboration with our award-winning partner design bureau.",
-    image: "/images/pexels-zak-mir-2158162344-35492984.jpg",
+    image: "/images/palm-jumeirah-villa.jpg",
   },
 ];
 
