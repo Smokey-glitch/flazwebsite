@@ -13,6 +13,8 @@ import {
   WhatsAppButton,
 } from "@/components/blocks";
 import ContactFooter from "@/components/ContactFooter";
+import ServiceCatalogue from "@/components/ServiceCatalogue";
+import { catalogueByKey } from "@/lib/service-catalogue";
 import { imageAlt } from "@/lib/image-alt";
 import { projects } from "@/lib/projects";
 import { SITE_URL, INTENTS } from "@/lib/company";
@@ -181,6 +183,15 @@ export default function ServicePageView({ s }: { s: ServicePage }) {
       url,
       provider: { "@type": "LocalBusiness", name: "Flaz Technical Services", url: SITE_URL },
       areaServed: { "@type": "City", name: "Dubai" },
+      ...(s.catalogue && {
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: `${s.navLabel} services`,
+          itemListElement: s.catalogue.flatMap((k) =>
+            catalogueByKey[k].items.map((name) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name } }))
+          ),
+        },
+      }),
     },
     {
       "@context": "https://schema.org",
@@ -249,6 +260,9 @@ export default function ServicePageView({ s }: { s: ServicePage }) {
           ))}
         </ul>
       </section>
+
+      {/* 3b. Complete service list (from the service catalogue) */}
+      {s.catalogue && <ServiceCatalogue keys={s.catalogue} />}
 
       {/* 4. Technical notes */}
       <Bleed bg="#1a1a1a" className="py-10 md:py-20">

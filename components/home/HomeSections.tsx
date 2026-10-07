@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowIcon, Bleed, SectionHeading, WhatsAppIcon } from "@/components/blocks";
+import { CategoryIcon } from "@/components/ServiceCatalogue";
 import { imageAlt } from "@/lib/image-alt";
+import { catalogue, catalogueHref } from "@/lib/service-catalogue";
 import { problems } from "@/lib/site-content";
 import { projects } from "@/lib/projects";
 import { waLink } from "@/lib/company";
@@ -66,6 +68,24 @@ export function ServicesGlance() {
           </Link>
         ))}
       </div>
+
+      {/* Compact trade links → each category's complete service list */}
+      <nav aria-label="Services by trade" className="mt-5 md:mt-6">
+        <p className="text-[12px] uppercase tracking-[0.15em] text-gray-600 mb-3">Browse by trade</p>
+        <ul className="flex flex-wrap gap-2">
+          {catalogue.map((c) => (
+            <li key={c.key}>
+              <Link
+                href={catalogueHref(c)}
+                className="flaz-card inline-flex items-center gap-2 min-h-[44px] px-4 rounded-sm bg-white text-[13px] md:text-[14px] font-medium text-[var(--flaz-dark)]"
+              >
+                <CategoryIcon icon={c.icon} size={16} />
+                {c.shortName}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
       {/* Quick problem routes — the #problems destination used by the mobile menu */}
       <div id="problems" className="mt-6 md:mt-8 bg-white rounded-sm p-5 md:p-6">

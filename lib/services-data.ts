@@ -1,4 +1,5 @@
 import type { IntentKey } from "./company";
+import type { CatalogueKey } from "./service-catalogue";
 
 export type Faq = { q: string; a: string };
 
@@ -29,6 +30,8 @@ export type ServicePage = {
   relatedProjects: string[];
   relatedProjectsLabel: string;
   related: string[];
+  /** Categories from the service catalogue whose complete lists are published on this page */
+  catalogue?: CatalogueKey[];
   faqs: Faq[];
   cta: { intent: IntentKey; label: string; heading: string; body: string };
 };
@@ -271,6 +274,7 @@ export const servicePages: ServicePage[] = [
     relatedProjects: ["villa-lakes", "damac-office", "palm-villa"],
     relatedProjectsLabel: "Properties with HVAC in scope",
     related: ["mep-technical-services", "electrical", "annual-maintenance-contracts", "property-maintenance"],
+    catalogue: ["hvac-ac"],
     faqs: [
       {
         q: "Do you provide AC maintenance in Dubai?",
@@ -397,6 +401,7 @@ export const servicePages: ServicePage[] = [
     relatedProjects: ["villa-lakes", "damac-office", "fairway-apt"],
     relatedProjectsLabel: "Projects with electrical in scope",
     related: ["mep-technical-services", "hvac-air-conditioning", "property-maintenance", "annual-maintenance-contracts"],
+    catalogue: ["electrical"],
     faqs: [
       {
         q: "Do you provide electrical maintenance?",
@@ -519,6 +524,7 @@ export const servicePages: ServicePage[] = [
     relatedProjects: ["fairway-apt", "jvc-apartment", "villa-lakes"],
     relatedProjectsLabel: "Projects with plumbing in scope",
     related: ["mep-technical-services", "property-maintenance", "renovation-fit-out", "annual-maintenance-contracts"],
+    catalogue: ["plumbing"],
     faqs: [
       {
         q: "Do you offer plumbing repair?",
@@ -965,13 +971,13 @@ export const servicePages: ServicePage[] = [
   {
     slug: "finishing",
     category: "renovation",
-    navLabel: "Finishing Services",
-    navBlurb: "Tiling, painting, carpentry, ceilings, plaster, wallpaper",
-    title: "Finishing Services in Dubai",
-    metaTitle: "Finishing Works Dubai — Tiling, Painting, Carpentry & Ceilings",
+    navLabel: "Finishing & Civil Services",
+    navBlurb: "Carpentry, painting, masonry & civil, tiling, ceilings, plaster",
+    title: "Finishing & Civil Services in Dubai",
+    metaTitle: "Finishing Works Dubai — Carpentry, Painting, Masonry & Civil, Tiling",
     metaDescription:
-      "Interior finishing works in Dubai: tiling, painting, carpentry and wood flooring, wallpaper, false ceilings, partitions and plaster for villas, apartments and commercial spaces.",
-    eyebrow: "Finishing services",
+      "Carpentry, painting, masonry and civil works in Dubai: tiling, wood flooring, wallpaper, false ceilings, partitions, plaster and waterproofing for villas, apartments and commercial spaces.",
+    eyebrow: "Finishing & civil services",
     heroImage: "/images/emirati-majlis.jpg",
     heroAlt: "Finished villa interior with carpentry and ceiling details",
     lead: "Tiling, painting, carpentry, wallpaper, ceilings and plaster — the visible layer of every project, delivered by the same team that coordinates what sits behind it.",
@@ -1048,7 +1054,8 @@ export const servicePages: ServicePage[] = [
     ),
     relatedProjects: ["fairway-apt", "palm-villa", "arabian-ranches"],
     relatedProjectsLabel: "Projects with finishing scope",
-    related: ["renovation-fit-out", "mep-technical-services", "property-maintenance", "annual-maintenance-contracts"],
+    related: ["renovation-fit-out", "vinyl-graphics-glass-film", "mep-technical-services", "property-maintenance"],
+    catalogue: ["carpentry", "painting", "masonry-civil"],
     faqs: [
       {
         q: "Can you provide finishing without a full renovation?",
@@ -1068,6 +1075,117 @@ export const servicePages: ServicePage[] = [
       label: "Get a quote",
       heading: "Need finishing works?",
       body: "Tell us the scope and we will arrange a survey and a written quotation.",
+    },
+  },
+
+  /* ─────────────────── VINYL, GRAPHICS & GLASS FILM ─────────────────── */
+  {
+    slug: "vinyl-graphics-glass-film",
+    category: "renovation",
+    navLabel: "Vinyl, Graphics & Glass Film",
+    navBlurb: "Glass film, vinyl and logo work, signage, wallpaper, floor coverings",
+    title: "Vinyl, Graphics & Glass Film in Dubai",
+    metaTitle: "Glass Film, Vinyl & Signage Installation Dubai",
+    metaDescription:
+      "Frosted glass film, vinyl and logo installation, one-way vision stickers, acrylic signage, wallpaper, floor vinyl, carpet, artificial grass and sun control film in Dubai.",
+    eyebrow: "Vinyl, graphics & glass film",
+    heroImage: "/images/business-bay-office.jpg",
+    heroAlt: "Commercial office fit-out in Business Bay",
+    lead: "Glass film, vinyl and logo installation, signage letters, wallpaper and floor coverings — the surface and branding layer of offices, shops and homes.",
+    overview: [
+      "Glass, walls and floors are the surfaces people see first. Film, vinyl, wallpaper and signage change how a space looks and feels, but they only look right when the surface is prepared and the material is applied accurately.",
+      "FLAZ installs glass film, vinyl graphics, branding, signage letters, wallpaper and floor coverings for offices, shops and homes, and can coordinate them with the fit-out or renovation happening around them.",
+    ],
+    capabilityHeading: "What we install",
+    capabilities: [
+      {
+        title: "Glass film",
+        body: "Frosted glass film, plain or with a logo, and sun control or blackout film for glazing.",
+      },
+      {
+        title: "Vinyl & logo work",
+        body: "Vinyl stickers and logos on glass, plus 3M branding and company logo cutting.",
+      },
+      {
+        title: "Shopfront graphics",
+        body: "One-way vision stickers for shops, and acrylic signage letter fixing.",
+      },
+      {
+        title: "Wallpaper",
+        body: "Wallpaper installation, in 3D or plain finishes.",
+      },
+      {
+        title: "Floor coverings",
+        body: "Floor vinyl and carpet installation.",
+      },
+      {
+        title: "Artificial grass",
+        body: "Artificial grass installation for walls and floors.",
+      },
+    ],
+    notes: [
+      {
+        title: "Surface preparation matters",
+        body: "Film and vinyl adhere best to clean, dry, flat surfaces. Checking the glass or wall first avoids bubbles, lifting edges and visible joins.",
+      },
+      {
+        title: "Provide artwork early",
+        body: "Logos and graphics are cut to size, so supplying clear artwork and agreeing dimensions before installation keeps the programme moving.",
+      },
+      {
+        title: "Building approvals for signage",
+        body: "Signage and shopfront branding can need approval from the landlord or building management. We raise this during the survey.",
+      },
+    ],
+    residential: [
+      "Frosted film for privacy on windows and glass doors",
+      "Sun control and blackout film",
+      "Wallpaper, floor vinyl and carpet",
+      "Artificial grass for terraces, balconies and walls",
+    ],
+    commercial: [
+      "Logo and branding on office glass and reception walls",
+      "One-way vision stickers and graphics for shops",
+      "Acrylic signage letters",
+      "Floor vinyl and carpet for offices and retail units",
+    ],
+    support: {
+      heading: "Alongside the wider project",
+      body: "These installations are often the last step of a fit-out or renovation. We can coordinate them with the trades before them so surfaces are ready on time.",
+      points: [
+        "Coordinated with fit-out and finishing works",
+        "Supply and installation scope confirmed in the written quotation",
+        "Repairs and replacement of existing film or graphics",
+      ],
+    },
+    processHeading: "How vinyl and film work is delivered",
+    process: standardProcess(
+      "We inspect the glass, walls or floors, agree the materials and artwork, and take measurements.",
+      "Installed work is checked against the agreed specification, snags cleared and surfaces left clean."
+    ),
+    relatedProjects: ["damac-office"],
+    relatedProjectsLabel: "Commercial fit-out work",
+    related: ["finishing", "renovation-fit-out", "property-maintenance", "mep-technical-services"],
+    catalogue: ["vinyl-graphics-glass-film"],
+    faqs: [
+      {
+        q: "Can you install film or vinyl in a single room or shop?",
+        a: "Yes. We carry out standalone installations as well as work within a larger fit-out or renovation.",
+      },
+      {
+        q: "Do you supply the materials?",
+        a: "We can supply and install, or work with materials you or your designer specify. This is agreed in the written quotation.",
+      },
+      {
+        q: "Do I need approval for shopfront branding or signage?",
+        a: "Often yes — landlords and building management commonly have requirements for signage and exterior graphics. We identify these at the survey stage; approvals are issued by the relevant party and are not guaranteed.",
+      },
+    ],
+    cta: {
+      intent: "quote",
+      label: "Get a quote",
+      heading: "Need film, vinyl or signage installed?",
+      body: "Tell us the surfaces and the finish you want. We will arrange a survey and a written quotation.",
     },
   },
 ];
