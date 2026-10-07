@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 
 const socials = [
-  { label: "WhatsApp", href: "https://wa.me/971542589887", bg: "#25D366", icon: <WhatsAppIcon />, delay: "0ms" },
+  { label: "WhatsApp", href: "https://wa.me/971565095690", bg: "#25D366", icon: <WhatsAppIcon />, delay: "0ms" },
   { label: "Instagram", href: "https://www.instagram.com/flaztechnicalsevices/", bg: "linear-gradient(135deg, #E1306C, #833AB4)", icon: <InstagramIcon />, delay: "60ms" },
   { label: "TikTok", href: "https://www.tiktok.com/@flaztechnicalservices", bg: "#010101", icon: <TikTokIcon />, delay: "120ms" },
   { label: "Facebook", href: "https://www.facebook.com/profile.php?id=61572318343723", bg: "#1877F2", icon: <FacebookIcon />, delay: "180ms" },
@@ -24,7 +24,7 @@ function getAIResponse(input: string): string {
   if (q.includes("service") || q.includes("offer") || q.includes("do you"))
     return "We offer electrical works, plumbing & sanitary, civil works, MEP services, fit-out & renovation, NOC & permits, and smart home integration. Which service are you interested in?";
   if (q.includes("contact") || q.includes("call") || q.includes("reach") || q.includes("phone"))
-    return "You can reach us at +971 54 258 9887 or email us at info@flaztechnicalservices.com. We're available Saturday–Thursday, 8am–6pm.";
+    return "You can reach us at +971 56 509 5690 or +971 54 292 8360 or email us at info@flaztechnicalservices.com. We're available Saturday–Thursday, 8am–6pm.";
   if (q.includes("location") || q.includes("where") || q.includes("office"))
     return "Our office is at Office 510 B, 5th Floor, Al Barsha Business Center, Al Barsha 1, Dubai. We service properties across the UAE.";
   if (q.includes("time") || q.includes("long") || q.includes("duration"))

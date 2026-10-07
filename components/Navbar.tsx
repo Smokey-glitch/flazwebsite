@@ -138,7 +138,7 @@ export default function Navbar() {
         {/* Desktop right */}
         <div className="hidden lg:flex items-center gap-5">
           <a
-            href="https://wa.me/971542589887"
+            href="https://wa.me/971565095690"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden xl:flex items-center gap-2 text-[13px] font-medium transition-colors"

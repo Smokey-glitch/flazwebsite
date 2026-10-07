@@ -50,6 +50,10 @@ export default function ContactPage() {
                 <a href={company.phoneHref} className="inline-flex items-center gap-2 min-h-[44px] font-medium text-[var(--flaz-dark)] hover:underline">
                   <PhoneIcon /> {company.phone}
                 </a>
+                <br />
+                <a href={company.phone2Href} className="inline-flex items-center gap-2 min-h-[44px] font-medium text-[var(--flaz-dark)] hover:underline">
+                  <PhoneIcon /> {company.phone2}
+                </a>
               </dd>
             </div>
             <div>

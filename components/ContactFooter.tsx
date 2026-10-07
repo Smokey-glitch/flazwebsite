@@ -10,7 +10,7 @@ const legalLinks = [
   { href: "/refund-policy", label: "Refund policy" },
 ];
 
-const { phone, phoneHref, email, address, footerTagline, navLinks, serviceLinks } = siteSettings;
+const { phone, phoneHref, phone2, phone2Href, email, address, footerTagline, navLinks, serviceLinks } = siteSettings;
 
 /** Shared compact footer used on every page. */
 export default function ContactFooter({ flush = false }: { flush?: boolean }) {
@@ -38,6 +38,7 @@ export default function ContactFooter({ flush = false }: { flush?: boolean }) {
           </div>
           <div className="flex flex-col">
             <a href={phoneHref} className={link}>{phone}</a>
+            <a href={phone2Href} className={link}>{phone2}</a>
             <a href={`mailto:${email}`} className={`${link} break-all`}>{email}</a>
           </div>
           <p className="mt-2 text-[13px] font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.6)", maxWidth: "40ch" }}>

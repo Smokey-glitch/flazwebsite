@@ -43,7 +43,7 @@ const orgJsonLd = {
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   image: `${SITE_URL}/images/palm-jumeirah-villa.jpg`,
-  telephone: company.phone,
+  telephone: [company.phone, company.phone2],
   email: company.email,
   address: {
     "@type": "PostalAddress",

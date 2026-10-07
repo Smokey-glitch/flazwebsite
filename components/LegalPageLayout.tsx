@@ -64,6 +64,8 @@ export function LegalContact() {
         <a href={`mailto:${company.email}`} className="underline">{company.email}</a>
         <br />
         <a href={company.phoneHref} className="underline">{company.phone}</a>
+        <br />
+        <a href={company.phone2Href} className="underline">{company.phone2}</a>
         {company.tradeLicence && (
           <>
             <br />

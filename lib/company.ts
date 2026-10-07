@@ -14,6 +14,8 @@ export const company = {
   name: "Flaz Technical Services",
   phone: siteSettings.phone,
   phoneHref: siteSettings.phoneHref,
+  phone2: siteSettings.phone2,
+  phone2Href: siteSettings.phone2Href,
   email: siteSettings.email,
   whatsappHref: siteSettings.whatsappHref,
   address: siteSettings.address,
