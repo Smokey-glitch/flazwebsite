@@ -10,7 +10,7 @@ export default function ServicesPageGrid() {
         <div>
           <p
             className="text-[11px] uppercase tracking-[0.2em] font-medium mb-3"
-            style={{ color: "var(--flaz-teal)" }}
+            style={{ color: "var(--flaz-teal-text)" }}
           >
             Full scope
           </p>
@@ -22,7 +22,7 @@ export default function ServicesPageGrid() {
           </h2>
         </div>
         <p
-          className="text-[15px] font-light text-gray-500 leading-relaxed"
+          className="text-[15px] font-light text-gray-600 leading-relaxed"
           style={{ maxWidth: "38ch" }}
         >
           Every trade, fully coordinated. One team, one contract, zero gaps.
@@ -52,7 +52,7 @@ export default function ServicesPageGrid() {
                     className="text-[10px] font-medium uppercase tracking-[0.18em] px-2 py-0.5 rounded-full"
                     style={{
                       border: "1px solid var(--flaz-teal)",
-                      color: "var(--flaz-teal)",
+                      color: "var(--flaz-teal-text)",
                     }}
                   >
                     {service.category}
@@ -68,7 +68,7 @@ export default function ServicesPageGrid() {
                   </h3>
                   <p
                     className="font-light leading-relaxed"
-                    style={{ fontSize: "14px", color: "rgba(44,44,44,0.45)" }}
+                    style={{ fontSize: "14px", color: "rgba(44,44,44,0.7)" }}
                   >
                     {service.desc}
                   </p>

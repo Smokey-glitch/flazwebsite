@@ -2,19 +2,46 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+
+import { servicePages } from "@/lib/services-data";
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
+  { label: "Services", href: "/services", children: true },
   { label: "Projects", href: "/projects" },
+  { label: "Industries", href: "/industries" },
+  { label: "About", href: "/about" },
+  { label: "Insights", href: "/insights" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [svcOpen, setSvcOpen] = useState(false);
   const pathname = usePathname();
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (menuOpen) document.body.dataset.menuOpen = "";
+    return () => {
+      delete document.body.dataset.menuOpen;
+    };
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        toggleRef.current?.focus();
+      }
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 10);
@@ -36,14 +63,10 @@ export default function Navbar() {
     >
       {/* Inner row */}
       <div
-        className="h-[60px] lg:h-[68px] flex items-center justify-between"
-        style={{
-          paddingLeft: "clamp(16px, calc(-57px + 19.5vw), 318px)",
-          paddingRight: "clamp(16px, calc(-57px + 19.5vw), 318px)",
-        }}
+        className="flaz-nav-pad h-[60px] lg:h-[68px] flex items-center justify-between lg:gap-6"
       >
         {/* Logo */}
-        <Link href="/" className="flex items-center shrink-0">
+        <Link href="/" className="flex items-center shrink-0 min-h-[44px]">
           <Image
             src="/logo.png"
             alt="Flaz"
@@ -63,28 +86,51 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-5 xl:gap-8" aria-label="Primary">
           {navLinks.map((link) => {
-            const isActive = pathname === link.href;
-            return (
+            const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
+            const item = (
               <Link
-                key={link.href}
                 href={link.href}
-                className="relative text-[14px] tracking-[0.04em] transition-colors duration-200 pb-0.5"
+                className="relative text-[14px] tracking-[0.03em] transition-colors duration-200 pb-0.5 flaz-link-muted"
                 style={{ color: isActive ? "var(--flaz-dark)" : undefined }}
-                onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.color = "var(--flaz-dark)"; }}
-                onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = ""; }}
               >
-                <span className={isActive ? "font-medium" : "font-light text-gray-500"}>
-                  {link.label}
-                </span>
+                <span className={isActive ? "font-medium" : "font-light"}>{link.label}</span>
                 {isActive && (
-                  <span
-                    className="absolute left-0 right-0 -bottom-0.5 h-[2px] rounded-full"
-                    style={{ backgroundColor: "var(--flaz-teal)" }}
-                  />
+                  <span className="absolute left-0 right-0 -bottom-0.5 h-[2px] rounded-full" style={{ backgroundColor: "var(--flaz-teal)" }} />
                 )}
               </Link>
+            );
+            if (!link.children) return <div key={link.href}>{item}</div>;
+            return (
+              <div
+                key={link.href}
+                className="relative"
+                onMouseEnter={() => setSvcOpen(true)}
+                onMouseLeave={() => setSvcOpen(false)}
+                onFocus={() => setSvcOpen(true)}
+                onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setSvcOpen(false); }}
+              >
+                {item}
+                <div
+                  className="absolute left-1/2 top-full pt-4 -translate-x-1/2"
+                  style={{ visibility: svcOpen ? "visible" : "hidden", opacity: svcOpen ? 1 : 0, transition: "opacity 180ms ease" }}
+                >
+                  <div className="bg-white rounded-sm shadow-2xl w-[560px] p-3 grid grid-cols-2 gap-1" style={{ border: "1px solid rgba(44,44,44,0.08)" }}>
+                    {servicePages.map((svc) => (
+                      <Link
+                        key={svc.slug}
+                        href={`/services/${svc.slug}`}
+                        onClick={() => setSvcOpen(false)}
+                        className="block rounded-sm px-4 py-3 hover:bg-[#ECEAE6] transition-colors"
+                      >
+                        <span className="block text-[13px] font-medium text-[var(--flaz-dark)]">{svc.navLabel}</span>
+                        <span className="block text-[12px] font-light text-gray-600 leading-snug mt-0.5">{svc.navBlurb}</span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
             );
           })}
         </nav>
@@ -95,51 +141,35 @@ export default function Navbar() {
             href="https://wa.me/971542589887"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center w-8 h-8 rounded-full transition-colors"
+            className="hidden xl:flex items-center gap-2 text-[13px] font-medium transition-colors"
             style={{ color: "var(--flaz-dark)" }}
             aria-label="WhatsApp"
-            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--flaz-teal)")}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--flaz-teal-text)")}
             onMouseLeave={(e) => (e.currentTarget.style.color = "var(--flaz-dark)")}
           >
-            <WhatsAppIcon size={17} />
+            <WhatsAppIcon size={16} />
+            WhatsApp
           </a>
           <Link
             href="#contact"
-            className="text-[14px] font-medium px-4 py-2 rounded-sm whitespace-nowrap transition-colors"
-            style={{ backgroundColor: "var(--flaz-teal)", color: "white" }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--flaz-teal-dark)")}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--flaz-teal)")}
+            data-intent="quote"
+            className="flaz-btn-teal text-[13px] font-medium px-4 py-2.5 rounded-sm whitespace-nowrap uppercase tracking-[0.06em]"
           >
-            Get free consultation
+            Get a quote
           </Link>
         </div>
 
         {/* Mobile right */}
         <div className="flex lg:hidden items-center gap-2">
-          <a
-            href="https://wa.me/971542589887"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 transition-colors"
-            style={{ color: "var(--flaz-dark)" }}
-            aria-label="WhatsApp"
-            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--flaz-teal)")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--flaz-dark)")}
-          >
-            <WhatsAppIcon size={19} />
-          </a>
-          <Link
-            href="#contact"
-            className="text-[13px] font-medium px-3 py-2 rounded-sm whitespace-nowrap"
-            style={{ backgroundColor: "var(--flaz-teal)", color: "white" }}
-          >
-            Contact us
-          </Link>
           <button
-            className="p-2 transition-colors"
+            ref={toggleRef}
+            type="button"
+            className="w-11 h-11 inline-flex items-center justify-center transition-colors"
             style={{ color: "var(--flaz-dark)" }}
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
           >
             {menuOpen ? <CloseIcon /> : <MenuIcon />}
           </button>
@@ -148,31 +178,38 @@ export default function Navbar() {
 
       {/* Mobile dropdown — CSS height transition */}
       <div
+        id="mobile-menu"
         className="lg:hidden w-full overflow-hidden"
+        inert={!menuOpen}
         style={{
-          maxHeight: menuOpen ? "360px" : "0px",
+          maxHeight: menuOpen ? "calc(100dvh - 60px)" : "0px", overflowY: "auto",
+          overscrollBehavior: "contain",
+          visibility: menuOpen ? "visible" : "hidden",
           opacity: menuOpen ? 1 : 0,
           borderTop: menuOpen ? "1px solid rgba(44,44,44,0.08)" : "none",
-          transition: "max-height 300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 250ms ease",
+          transition: menuOpen
+            ? "max-height 300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 250ms ease"
+            : "max-height 300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 250ms ease, visibility 0s linear 300ms",
         }}
       >
         <div
-          className="py-4 flex flex-col"
+          className="pt-2 flex flex-col"
           style={{
+            paddingBottom: "calc(24px + env(safe-area-inset-bottom))",
             paddingLeft: "clamp(16px, calc(-57px + 19.5vw), 318px)",
             paddingRight: "clamp(16px, calc(-57px + 19.5vw), 318px)",
           }}
         >
           {navLinks.map((link) => {
-            const isActive = pathname === link.href;
+            const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
             return (
+              <div key={link.href}>
               <Link
-                key={link.href}
                 href={link.href}
-                className="flex items-center justify-between py-3.5 text-[14px] transition-colors"
+                className="flex items-center justify-between min-h-[48px] text-[15px] transition-colors"
                 style={{
                   borderBottom: "1px solid rgba(44,44,44,0.07)",
-                  color: isActive ? "var(--flaz-teal)" : "var(--flaz-dark)",
+                  color: isActive ? "var(--flaz-teal-text)" : "var(--flaz-dark)",
                   fontWeight: isActive ? 500 : 300,
                 }}
                 onClick={() => setMenuOpen(false)}
@@ -182,16 +219,43 @@ export default function Navbar() {
                   <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--flaz-teal)" }} />
                 )}
               </Link>
+              {link.children && (
+                <div className="pl-4 pb-2" style={{ borderBottom: "1px solid rgba(44,44,44,0.07)" }}>
+                  {servicePages.map((svc) => (
+                    <Link
+                      key={svc.slug}
+                      href={`/services/${svc.slug}`}
+                      className="flex items-center min-h-[44px] text-[14px] font-light text-gray-700"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {svc.navLabel}
+                    </Link>
+                  ))}
+                </div>
+              )}
+              </div>
             );
           })}
-          <div className="pt-4">
+          <div className="pt-4 flex flex-col gap-3">
             <Link
-              href="#contact"
-              className="block text-[14px] font-medium px-5 py-3 rounded-sm text-center"
-              style={{ backgroundColor: "var(--flaz-teal)", color: "white" }}
+              href="/#problems"
+              className="flex items-center justify-between min-h-[48px] px-4 rounded-sm text-[14px] text-[var(--flaz-dark)]"
+              style={{ border: "1px solid rgba(44,44,44,0.22)" }}
               onClick={() => setMenuOpen(false)}
             >
-              Get free consultation
+              <span>
+                <span className="block font-medium">Not sure which service?</span>
+                <span className="block font-light text-[13px] text-gray-700">Start with your problem</span>
+              </span>
+              <span aria-hidden="true">→</span>
+            </Link>
+            <Link
+              href="#contact"
+              data-intent="quote"
+              className="flaz-btn-teal flex items-center justify-center min-h-[48px] text-[14px] font-medium px-5 rounded-sm text-center"
+              onClick={() => setMenuOpen(false)}
+            >
+              Get a quote
             </Link>
           </div>
         </div>

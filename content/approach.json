@@ -3,16 +3,16 @@
   "headingLine1": "Structured delivery.",
   "headingLine2": "Every time.",
   "intro": "Every Flaz project follows the same four-stage process — so you always know what happens next, who is responsible, and where your project stands.",
-  "ctaLabel": "Get free consultation",
+  "ctaLabel": "Get a quote",
   "ctaHref": "#contact",
   "steps": [
     {
       "title": "Survey & scoping",
-      "body": "We visit the site, assess the full scope, and produce a detailed written quotation — fixed price agreed before anything starts. No estimates, no surprises."
+      "body": "We visit the site, assess the full scope, and produce a detailed written quotation — the price and scope are set out in writing before work starts."
     },
     {
       "title": "Dedicated oversight",
-      "body": "Every project gets a named project manager and site engineer assigned from day one. One person to call, one person accountable for the entire job."
+      "body": "Each project has a named project manager as your point of contact."
     },
     {
       "title": "Live progress updates",
@@ -20,7 +20,7 @@
     },
     {
       "title": "Clean handover",
-      "body": "A final walkthrough, snag list cleared, and all documentation handed over. We don't close a project until you're satisfied."
+      "body": "A final walkthrough, snag list cleared, and all documentation handed over. Any outstanding items are recorded and agreed with you at handover."
     }
   ]
 }

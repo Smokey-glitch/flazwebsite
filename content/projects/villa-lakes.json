@@ -2,7 +2,7 @@
   "id": "villa-lakes",
   "order": 1,
   "title": "Garden-View Villa, The Lakes",
-  "desc": "Full interior overhaul — structural finishes, custom joinery, and folding glass doors that open to a private garden. Every material was sourced and approved before a single wall was touched.",
+  "desc": "Full interior overhaul — structural finishes, custom joinery, and folding glass doors that open to a private garden. Materials were selected and approved before work began.",
   "shortDesc": "Full interior overhaul with custom joinery and folding glass doors.",
   "image": "/images/the-lakes-villa-living.jpg",
   "beforeImage": "/images/before-the-lakes-villa.jpg",
@@ -16,9 +16,16 @@
     "/images/dubai-villa-pool.jpg",
     "/images/dubai-villa-exterior.jpg"
   ],
-  "tags": ["Villa", "NOC", "MEP"],
+  "tags": [
+    "Villa",
+    "NOC",
+    "MEP"
+  ],
   "area": "The Lakes, Dubai",
   "year": "2024",
   "scope": "Design, MEP, Fit-out, NOC Approvals",
-  "duration": "14 weeks"
+  "duration": "14 weeks",
+  "propertyType": "Villa",
+  "objective": "A full interior overhaul that opens the living space to a private garden.",
+  "execution": "Materials were selected and approved before work began."
 }

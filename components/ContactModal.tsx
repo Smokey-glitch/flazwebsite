@@ -1,102 +1,185 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useCallback } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { INTENTS, company, waLink, type IntentKey } from "@/lib/company";
 
-const schema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  phone: z
-    .string()
-    .regex(
-      /^(0?5[0-9]{8})$/,
-      "Enter a valid UAE mobile number (e.g. 0501234567)"
-    ),
-});
+// zod + react-hook-form + the form UI (~100 KB compressed) are fetched on first intent or open, not on every page view.
+type FormComponent = typeof import("@/components/ContactModalForm").default;
+let formComponent: FormComponent | null = null;
+let formPromise: Promise<FormComponent> | null = null;
+function fetchForm(): Promise<FormComponent> {
+  formPromise ??= import("@/components/ContactModalForm")
+    .then((m) => (formComponent = m.default))
+    .catch((err) => {
+      formPromise = null; // allow a retry after a failed chunk load
+      throw err;
+    });
+  return formPromise;
+}
 
-type FormValues = z.infer<typeof schema>;
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 export default function ContactModal() {
   const [isOpen, setIsOpen] = useState(false);
+  const [intent, setIntent] = useState<IntentKey>("quote");
   const [sent, setSent] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  // The side photo is decorative and the dialog starts hidden, so only fetch it once the popup has been opened.
+  const [hasOpened, setHasOpened] = useState(false);
+  const [formKey, setFormKey] = useState(0);
+  const [FormComp, setFormComp] = useState<FormComponent | null>(null);
+  const [formError, setFormError] = useState(false);
+  // The bundler caches a failed chunk load, so an in-place retry can fail again; the second time we offer a page reload.
+  const [retries, setRetries] = useState(0);
+  const retryRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
+  const backdropRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
-  const form = useForm<FormValues>({
-    resolver: zodResolver(schema),
-    defaultValues: { name: "", phone: "" },
-    mode: "onTouched",
-  });
+  const loadForm = useCallback(() => {
+    setFormError(false);
+    if (formComponent) {
+      setFormComp(() => formComponent);
+      return;
+    }
+    fetchForm()
+      .then((C) => setFormComp(() => C))
+      .catch(() => setFormError(true));
+  }, []);
 
   const close = useCallback(() => {
     setIsOpen(false);
-    form.reset();
+    setSent(false);
+    // Remount the form so the next opening starts clean (no stale values or validation errors).
+    setFormKey((n) => n + 1);
     history.replaceState(null, "", " ");
-  }, [form]);
+  }, []);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       const target = (e.target as Element).closest('[href="#contact"]');
       if (target) {
         e.preventDefault();
+        const el = target as HTMLElement;
+        // The mobile action bar defers to the page: service pages declare their enquiry intent via data-page-intent.
+        const requested = (el.dataset.intentSource === "page"
+          ? document.querySelector<HTMLElement>("[data-page-intent]")?.dataset.pageIntent
+          : el.dataset.intent) as IntentKey | undefined;
+        setIntent(requested && requested in INTENTS ? requested : "quote");
+        openerRef.current = target as HTMLElement;
+        setHasOpened(true);
         setIsOpen(true);
+        loadForm();
       }
     }
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
-  }, []);
-
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") close();
+    // Start fetching the form chunk as soon as a visitor shows intent (hover, keyboard focus, touch) on a quote link.
+    function warm(e: Event) {
+      if ((e.target as Element).closest?.('[href="#contact"]')) fetchForm().catch(() => {});
     }
-    if (isOpen) document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
+    document.addEventListener("click", handleClick);
+    document.addEventListener("pointerover", warm, { passive: true });
+    document.addEventListener("focusin", warm);
+    document.addEventListener("touchstart", warm, { passive: true });
+    return () => {
+      document.removeEventListener("click", handleClick);
+      document.removeEventListener("pointerover", warm);
+      document.removeEventListener("focusin", warm);
+      document.removeEventListener("touchstart", warm);
+    };
+  }, [loadForm]);
+
+  // Move focus in on open; contain Tab; close on Escape.
+  useEffect(() => {
+    if (!isOpen) return;
+    const dialog = dialogRef.current;
+    const first = dialog?.querySelector<HTMLElement>("input, textarea");
+    // Wait a frame so the dialog is visible before it receives focus.
+    const raf = requestAnimationFrame(() => (first ?? dialog)?.focus({ preventScroll: true }));
+
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        close();
+        return;
+      }
+      if (e.key !== "Tab" || !dialog) return;
+      const items = Array.from(dialog.querySelectorAll<HTMLElement>(FOCUSABLE));
+      if (items.length === 0) {
+        e.preventDefault();
+        dialog.focus();
+        return;
+      }
+      const firstEl = items[0];
+      const lastEl = items[items.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey && (active === firstEl || active === dialog || !dialog.contains(active))) {
+        e.preventDefault();
+        lastEl.focus();
+      } else if (!e.shiftKey && (active === lastEl || !dialog.contains(active))) {
+        e.preventDefault();
+        firstEl.focus();
+      }
+    }
+    document.addEventListener("keydown", onKey);
+    return () => {
+      cancelAnimationFrame(raf);
+      document.removeEventListener("keydown", onKey);
+    };
   }, [isOpen, close]);
+
+  // If the form chunk fails to load, put focus on "Try again" so keyboard users land on the recovery action.
+  useEffect(() => {
+    if (formError) retryRef.current?.focus({ preventScroll: true });
+  }, [formError]);
+
+  // After a successful send, move focus to the confirmation so it is announced and keyboard users are not left on a removed form.
+  useEffect(() => {
+    if (!sent) return;
+    const raf = requestAnimationFrame(() => {
+      const target = dialogRef.current?.querySelector<HTMLElement>("[data-success]") ?? dialogRef.current;
+      target?.focus({ preventScroll: true });
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [sent]);
+
+  // aria-modal needs the page behind to be unreachable: make every other body child inert while open.
+  useEffect(() => {
+    if (!isOpen) return;
+    const modalRoots = [backdropRef.current, panelRef.current];
+    const changed: Element[] = [];
+    for (const el of Array.from(document.body.children)) {
+      if (modalRoots.includes(el as HTMLDivElement) || el.tagName === "SCRIPT" || el.hasAttribute("inert")) continue;
+      el.setAttribute("inert", "");
+      changed.push(el);
+    }
+    return () => changed.forEach((el) => el.removeAttribute("inert"));
+  }, [isOpen]);
+
+  // Return focus to the opener once the page behind is interactive again (effect cleanups above run first).
+  useEffect(() => {
+    if (isOpen) return;
+    const opener = openerRef.current;
+    openerRef.current = null;
+    if (opener && opener.isConnected) opener.focus({ preventScroll: true });
+  }, [isOpen]);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
+    if (isOpen) document.body.dataset.modalOpen = "";
     return () => {
       document.body.style.overflow = "";
+      delete document.body.dataset.modalOpen;
     };
   }, [isOpen]);
 
-  async function onSubmit(values: FormValues) {
-    setSubmitError(null);
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      if (!res.ok) throw new Error();
-
-      setSent(true);
-      setTimeout(() => {
-        setSent(false);
-        form.reset();
-        close();
-      }, 2000);
-    } catch {
-      setSubmitError("Something went wrong. Please try again or call us directly.");
-    }
-  }
-
   return (
     <>
-      {/* Backdrop — z-[45] sits above content but below navbar (z-50) */}
+      {/* Backdrop and dialog sit above the navbar and mobile action bar. */}
       <div
-        className="fixed inset-0 z-[45]"
+        ref={backdropRef}
+        className="fixed inset-0 z-[60]"
+        aria-hidden="true"
         style={{
           backgroundColor: "rgba(0,0,0,0.55)",
           transition: "opacity 280ms ease",
@@ -106,16 +189,25 @@ export default function ContactModal() {
         onClick={close}
       />
 
-      {/* Modal panel */}
+      {/* Modal panel. `inert` + visibility keep the closed dialog out of the tab order and the accessibility tree. */}
       <div
-        className="fixed inset-0 z-[46] flex items-center justify-center px-4"
-        style={{ pointerEvents: isOpen ? "auto" : "none" }}
+        ref={panelRef}
+        className="fixed inset-0 z-[61] flex items-center justify-center p-4"
+        inert={!isOpen}
+        style={{
+          pointerEvents: isOpen ? "auto" : "none",
+          visibility: isOpen ? "visible" : "hidden",
+          transition: isOpen ? "none" : "visibility 0s linear 280ms",
+        }}
       >
         <div
+          ref={dialogRef}
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-title"
-          className="relative w-full bg-white shadow-2xl overflow-hidden"
+          aria-describedby="modal-desc"
+          tabIndex={-1}
+          className="relative w-full max-h-[calc(100dvh-2rem)] bg-white shadow-2xl overflow-x-hidden overflow-y-auto focus:outline-none"
           style={{
             maxWidth: "900px",
             borderRadius: "12px",
@@ -127,9 +219,10 @@ export default function ContactModal() {
         >
           {/* Close button */}
           <button
+            type="button"
             onClick={close}
             aria-label="Close"
-            className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors focus-visible:ring-2 focus-visible:ring-[var(--flaz-teal)] focus-visible:outline-none"
+            className="absolute top-2 right-2 z-10 w-11 h-11 rounded-full flex items-center justify-center text-gray-600 hover:text-gray-900 transition-colors focus-visible:ring-2 focus-visible:ring-[var(--flaz-teal-dark)] focus-visible:outline-none"
             style={{ backgroundColor: "rgba(0,0,0,0.06)" }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -138,112 +231,108 @@ export default function ContactModal() {
             </svg>
           </button>
 
+          {/* Persistent live region so the confirmation is announced when it appears */}
+          <div role="status" aria-live="polite" className="sr-only">
+            {sent ? "Request received. Thank you. Your request has been sent to the Flaz team." : ""}
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2">
 
             {/* Left — Form */}
-            <div className="px-8 md:px-12 py-10 flex flex-col justify-between" style={{ backgroundColor: "#ECEAE6" }}>
+            <div className="px-6 sm:px-8 md:px-12 py-8 md:py-10 flex flex-col justify-between" style={{ backgroundColor: "#ECEAE6" }}>
               <div>
-                <h2 id="modal-title" className="text-[36px] md:text-[44px] font-medium text-[var(--flaz-dark)] leading-tight mb-3 tracking-tight">
-                  Ready to transform<br />your property?
+                <h2 id="modal-title" className="text-[26px] md:text-[38px] font-medium text-[var(--flaz-dark)] leading-tight mb-3 tracking-tight pr-10">
+                  {sent ? "Request received" : INTENTS[intent].title}
                 </h2>
-                <p className="text-[14px] font-light text-gray-500 mb-8">
-                  Leave your contact details and we will contact you shortly.
+                <p id="modal-desc" className="text-[14px] font-light text-gray-600 mb-6">
+                  {sent ? "Thank you. Your request has been sent to the Flaz team." : INTENTS[intent].sub}
                 </p>
 
                 {sent ? (
-                  <div className="py-10 text-center">
-                    <p className="text-[18px] font-medium" style={{ color: "var(--flaz-teal)" }}>Thank you!</p>
-                    <p className="text-gray-500 text-[14px] mt-2">We&apos;ll be in touch shortly.</p>
+                  <div data-success tabIndex={-1} className="py-2 focus:outline-none">
+                    <p className="text-[15px] font-light text-gray-700 mb-6">
+                      We will use the number you provided to contact you about your enquiry.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={close}
+                      className="flaz-btn-teal px-8 min-h-[48px] text-[15px] font-medium tracking-wide text-[var(--flaz-dark)]"
+                      style={{ borderRadius: "6px" }}
+                    >
+                      Close
+                    </button>
                   </div>
                 ) : (
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
-
-                      {/* Name */}
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Name</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Enter Your Name…"
-                                autoComplete="name"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      {/* Phone — custom prefix layout, skip FormControl wrapper */}
-                      <FormField
-                        control={form.control}
-                        name="phone"
-                        render={({ field, fieldState }) => (
-                          <FormItem>
-                            <FormLabel>Phone Number</FormLabel>
-                            <div
-                              className="flex bg-white overflow-hidden"
-                              style={{
-                                border: fieldState.error ? "1px solid #ef4444" : "1px solid #e0ddd9",
-                                borderRadius: "6px",
-                              }}
-                            >
-                              <span className="pl-4 pr-3 text-[14px] text-gray-600 border-r border-gray-200 py-3 shrink-0 flex items-center gap-1.5">
-                                🇦🇪 <span className="text-gray-400">+971</span>
-                              </span>
-                              <input
-                                type="tel"
-                                autoComplete="tel"
-                                placeholder="Phone Number…"
-                                aria-invalid={!!fieldState.error}
-                                className="flex-1 text-[14px] px-3 py-3 text-gray-800 placeholder:text-gray-400 bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--flaz-teal)]"
-                                {...field}
-                              />
-                            </div>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      {/* Submit */}
-                      <button
-                        type="submit"
-                        disabled={form.formState.isSubmitting}
-                        className="mt-2 px-8 py-3 text-white text-[15px] font-medium tracking-wide transition-colors self-start disabled:opacity-60"
-                        style={{ backgroundColor: "var(--flaz-teal)", borderRadius: "6px" }}
-                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--flaz-teal-dark)")}
-                        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--flaz-teal)")}
-                      >
-                        {form.formState.isSubmitting ? "Sending…" : "Send"}
-                      </button>
-
-                      {submitError && (
-                        <p className="text-[13px] text-red-500">{submitError}</p>
-                      )}
-                    </form>
-                  </Form>
+                  hasOpened &&
+                  (FormComp ? (
+                    <FormComp key={formKey} intent={intent} active={isOpen} onSent={() => setSent(true)} />
+                  ) : formError ? (
+                    <div role="alert" style={{ minHeight: 340 }}>
+                      <p className="text-[15px] font-medium text-[var(--flaz-dark)]">We could not load the enquiry form.</p>
+                      <p className="mt-1 text-[14px] font-light text-gray-700">Check your connection and try again, or contact us directly.</p>
+                      <div className="mt-4 flex flex-wrap gap-3">
+                        <button
+                          ref={retryRef}
+                          type="button"
+                          onClick={() => {
+                            if (retries >= 1) {
+                              window.location.reload();
+                              return;
+                            }
+                            setRetries(1);
+                            // The button is about to unmount, so keep focus inside the dialog while the retry runs.
+                            dialogRef.current?.focus({ preventScroll: true });
+                            loadForm();
+                          }}
+                          className="flaz-btn-teal px-6 min-h-[48px] text-[15px] font-medium text-[var(--flaz-dark)]"
+                          style={{ borderRadius: "6px" }}
+                        >
+                          {retries >= 1 ? "Reload page" : "Try again"}
+                        </button>
+                        <a href={company.phoneHref} className="flaz-btn-ghost-dark inline-flex items-center px-6 min-h-[48px] text-[15px] font-medium" style={{ borderRadius: "6px" }}>
+                          Call {company.phone}
+                        </a>
+                        <a
+                          href={waLink(INTENTS[intent].waMessage)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flaz-btn-ghost-dark inline-flex items-center px-6 min-h-[48px] text-[15px] font-medium"
+                          style={{ borderRadius: "6px" }}
+                        >
+                          WhatsApp us
+                        </a>
+                      </div>
+                    </div>
+                  ) : (
+                    // Reserve the form's height so the dialog does not jump; the text appears only if loading takes a moment.
+                    <div role="status" className="flaz-delayed-in text-[14px] font-light text-gray-700" style={{ minHeight: 340 }}>
+                      Loading enquiry form…
+                    </div>
+                  ))
                 )}
               </div>
 
-              <p className="text-[11px] text-gray-400 leading-relaxed mt-8">
-                By subscribing, you agree to our research communication guidelines and{" "}
-                <span className="underline cursor-pointer">Privacy Policy</span>.
+              <p className="text-[12px] text-gray-600 leading-relaxed mt-8">
+                Prefer WhatsApp?{" "}
+                <a href={waLink(INTENTS[intent].waMessage)} target="_blank" rel="noopener noreferrer" className="underline py-1 inline-block text-[#1f6f6f]">
+                  Message us directly
+                </a>
+                . See our{" "}
+                <a href="/privacy-policy" target="_blank" rel="noopener" className="underline py-1 inline-block">Privacy Policy<span className="sr-only"> (opens in a new tab)</span></a>.
               </p>
             </div>
 
             {/* Right — Image */}
             <div className="hidden md:block relative" style={{ minHeight: "480px" }}>
-              <Image
-                src="/images/dubai-apartment-living.jpg"
-                alt="Flaz property transformation"
-                fill
-                className="object-cover"
-                sizes="450px"
-              />
+              {hasOpened && (
+                <Image
+                  src="/images/dubai-apartment-living.jpg"
+                  alt=""
+                  fill
+                  className="object-cover"
+                  sizes="450px"
+                />
+              )}
               <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(236,234,230,0.15), transparent)" }} />
             </div>
 

@@ -23,7 +23,7 @@ const services = [
   {
     id: "signature",
     title: "Signature services",
-    desc: "Developed and executed in collaboration with our award-winning partner design bureau.",
+    desc: "Developed and executed with our design partners.",
     image: "/images/palm-jumeirah-villa.jpg",
   },
 ];
@@ -59,7 +59,7 @@ function LightCard({ service, compact }: { service: (typeof services)[0]; compac
         </h3>
         {!compact && (
           <p
-            className="font-light text-gray-500 leading-relaxed"
+            className="font-light text-gray-600 leading-relaxed"
             style={{ fontSize: "clamp(13px, 1.2vw, 15px)", maxWidth: "42ch" }}
           >
             {service.desc}
@@ -94,7 +94,7 @@ function SignatureCard({ service }: { service: (typeof services)[0] }) {
           <div>
             <p
               className="text-[10px] uppercase tracking-[0.2em] font-medium mb-6"
-              style={{ color: "var(--flaz-teal)" }}
+              style={{ color: "var(--flaz-teal-text)" }}
             >
               Premium
             </p>
@@ -139,7 +139,7 @@ export default function ServicesSection() {
     <section className="py-14">
       <p
         className="text-[10px] uppercase tracking-[0.2em] font-medium mb-5"
-        style={{ color: "var(--flaz-teal)" }}
+        style={{ color: "var(--flaz-teal-text)" }}
       >
         What we do
       </p>

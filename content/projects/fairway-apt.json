@@ -2,7 +2,7 @@
   "id": "fairway-apt",
   "order": 4,
   "title": "Fairway West Tower — Luxury Apartment",
-  "desc": "Design-and-build renovation with bespoke cabinetry, premium finishes, and fully coordinated FF&E throughout every room. The client wanted a show-home standard — delivered on schedule with zero snagging.",
+  "desc": "Design-and-build renovation with bespoke cabinetry, premium finishes, and fully coordinated FF&E throughout every room. Design-and-build renovation with bespoke cabinetry, premium finishes and coordinated FF&E.",
   "shortDesc": "Design-and-build with bespoke cabinetry and premium FF&E coordination.",
   "image": "/images/dubai-apartment-living.jpg",
   "beforeImage": "/images/before-dubai-hills-apartment.jpg",
@@ -16,9 +16,17 @@
     "/images/dubai-apartment-living.jpg",
     "/images/emirati-majlis.jpg"
   ],
-  "tags": ["Apartment", "Design", "Renovation"],
+  "tags": [
+    "Apartment",
+    "Design",
+    "Renovation"
+  ],
   "area": "Dubai Hills",
   "year": "2025",
   "scope": "Design & Build, FF&E, Joinery, Plumbing",
-  "duration": "12 weeks"
+  "duration": "12 weeks",
+  "propertyType": "Apartment",
+  "objective": "An apartment with bespoke cabinetry and premium finishes.",
+  "execution": "Design-and-build with fully coordinated FF&E throughout every room.",
+  "result": "Completed in 12 weeks."
 }

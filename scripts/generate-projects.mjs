@@ -1,4 +1,4 @@
-// Reads content/projects/*.json (edited via the Decap CMS admin panel or by hand),
+// Reads content/projects/*.json (edited by hand),
 // validates each entry, sorts by `order`, and writes lib/projects.generated.json.
 // Runs before `next dev`/`next build` via the predev/prebuild npm hooks — kept out
 // of lib/projects.ts itself because that module is imported by "use client" components

@@ -2,7 +2,7 @@
   "id": "jvc-apartment",
   "order": 5,
   "title": "JVC Studio Conversion",
-  "desc": "Smart layout redesign converting a standard studio into a functional one-bedroom with built-in storage, a sliding partition wall, and modern finishes throughout. Proof that clever planning beats extra square footage.",
+  "desc": "Smart layout redesign converting a standard studio into a functional one-bedroom with built-in storage, a sliding partition wall, and modern finishes throughout.",
   "shortDesc": "Layout redesign converting a studio into a functional one-bedroom.",
   "image": "/images/jvc-one-bedroom.jpg",
   "beforeImage": "/images/before-jvc-studio.jpg",
@@ -16,9 +16,15 @@
     "/images/jvc-one-bedroom.jpg",
     "/images/dubai-apartment-living.jpg"
   ],
-  "tags": ["Apartment", "Renovation"],
+  "tags": [
+    "Apartment",
+    "Renovation"
+  ],
   "area": "Jumeirah Village Circle",
   "year": "2025",
   "scope": "Layout Redesign, Fit-out, Plumbing",
-  "duration": "6 weeks"
+  "duration": "6 weeks",
+  "propertyType": "Apartment",
+  "objective": "Convert a standard studio into a functional one-bedroom.",
+  "execution": "Smart layout redesign with built-in storage, a sliding partition wall and modern finishes throughout."
 }

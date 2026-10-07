@@ -1,28 +1,60 @@
 {
   "faqs": [
     {
-      "q": "Do you offer full-cycle technical and fit-out services?",
-      "a": "Yes. We handle everything from initial consultation and design through to execution and handover — including electrical, plumbing, civil works, MEP, and finishing."
+      "q": "Do you provide HVAC maintenance in Dubai?",
+      "a": "Yes. We service, repair and maintain air-conditioning and ventilation systems for villas, apartments, offices and commercial properties. That includes split and ducted systems, VRF / VRV, AHU and FCU units, either as one-off visits or as scheduled preventive maintenance."
     },
     {
-      "q": "What is the step-by-step process for a project?",
-      "a": "We start with a site survey and consultation, then prepare a detailed scope and quotation. Once approved, we assign a project manager, begin works, and provide weekly progress updates until final handover."
+      "q": "Do you provide electrical maintenance?",
+      "a": "Yes. We inspect, test and repair distribution boards, circuits, lighting and fittings, and we troubleshoot faults such as tripping breakers or dead circuits. Electrical maintenance can be one-off or part of an Annual Maintenance Contract."
     },
     {
-      "q": "Who manages and handles the project process?",
-      "a": "Every project is assigned a dedicated project manager and site engineer who oversee the full scope, coordinate trades, and serve as your single point of contact throughout."
+      "q": "Do you offer plumbing repair?",
+      "a": "Yes. We repair leaks, taps, mixers, flush systems, water heaters, pumps and drainage, and we locate hidden leaks before opening up walls or floors."
+    },
+    {
+      "q": "Do you provide Annual Maintenance Contracts?",
+      "a": "Yes. We provide AMCs covering HVAC, electrical, plumbing and finishing for villas, apartments, offices, retail and managed properties. Each contract is scoped around the property, so we prepare a written proposal after understanding the equipment and your requirements."
+    },
+    {
+      "q": "Do you handle MEP works?",
+      "a": "Yes. We deliver mechanical, electrical and plumbing works as one coordinated scope — installation, testing, commissioning and maintenance — for renovations, fit-outs and existing properties."
+    },
+    {
+      "q": "Do you provide emergency technical support?",
+      "a": "For urgent HVAC, electrical or plumbing issues, contact us by phone or WhatsApp and we will advise on the next step. If you expect to need regular support, an Annual Maintenance Contract formalises the arrangement."
+    },
+    {
+      "q": "Do you work with property managers?",
+      "a": "Yes. We work with landlords, property managers and managed buildings, coordinating technical disciplines across multiple units through a single point of contact."
+    },
+    {
+      "q": "Do you maintain villas and apartments?",
+      "a": "Yes. We maintain villas, townhouses and apartments for owners, landlords and tenants, from occasional repairs to structured preventive maintenance."
+    },
+    {
+      "q": "Do you work with offices and commercial properties?",
+      "a": "Yes. We support offices, retail units, restaurants and showrooms with technical maintenance, MEP works and fit-out."
+    },
+    {
+      "q": "Do you handle renovation and fit-out?",
+      "a": "Yes. We manage villa and apartment renovations, office and retail fit-outs and design-and-build projects from survey and scoping through execution to a documented handover."
+    },
+    {
+      "q": "What areas of Dubai do you cover?",
+      "a": "We work across Dubai. Our featured projects are in The Lakes, Arabian Ranches, Business Bay, Dubai Hills, Jumeirah Village Circle and Palm Jumeirah, and our office is in Al Barsha. Tell us where your property is and we will confirm."
+    },
+    {
+      "q": "Can I request a site visit?",
+      "a": "Yes. A site survey is where every project and maintenance proposal starts. Request a visit through the form, WhatsApp or phone and we will arrange a time with you."
     },
     {
       "q": "Do I need approvals or NOCs for my project?",
-      "a": "For most renovation and fit-out works in Dubai you will need NOC approvals from the relevant authorities or your developer. Our team handles all permit applications and submissions on your behalf."
+      "a": "For most renovation and fit-out works in Dubai you will need NOC approvals from the relevant authorities, developer or community. We can help prepare and submit the applications where this is within the agreed scope; approvals are issued by the relevant authority, and timing and outcome are not guaranteed."
     },
     {
       "q": "How long does a project typically take?",
       "a": "Timelines vary by scope — a standard apartment fit-out takes 4–8 weeks, while larger villa or commercial projects can range from 2–6 months. We provide a detailed schedule before work begins."
-    },
-    {
-      "q": "Can I live in the property during the works?",
-      "a": "In many cases yes, depending on the scope. For full fit-outs or major civil works we recommend vacating temporarily. We discuss this during the consultation and plan accordingly to minimise disruption."
     }
   ]
 }

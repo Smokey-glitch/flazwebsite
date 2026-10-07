@@ -149,7 +149,7 @@ export default function CalculatorSection() {
         {/* CTA */}
         <div className="mt-8">
           <button
-            className="w-full md:w-auto px-7 py-3 rounded-sm text-white text-sm font-medium tracking-wide transition-colors"
+            className="w-full md:w-auto px-7 py-3 rounded-sm text-[var(--flaz-dark)] text-sm font-medium tracking-wide transition-colors"
             style={{ backgroundColor: "var(--flaz-teal)" }}
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--flaz-teal-dark)")}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--flaz-teal)")}

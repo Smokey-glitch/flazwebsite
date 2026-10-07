@@ -15,7 +15,7 @@ export default function FAQSection() {
       <div className="mb-12">
         <p
           className="text-[11px] uppercase tracking-[0.2em] font-medium mb-4"
-          style={{ color: "var(--flaz-teal)" }}
+          style={{ color: "var(--flaz-teal-text)" }}
         >
           Common questions
         </p>
@@ -45,14 +45,14 @@ export default function FAQSection() {
               >
                 <span
                   className="text-[12px] font-medium tabular-nums shrink-0 pt-0.5 transition-colors duration-200"
-                  style={{ color: isActive ? "var(--flaz-teal)" : "rgba(44,44,44,0.25)", minWidth: "22px" }}
+                  style={{ color: isActive ? "var(--flaz-teal-text)" : "rgba(44,44,44,0.75)", minWidth: "22px" }}
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span
                   className="text-[15px] md:text-[16px] leading-snug transition-colors duration-200"
                   style={{
-                    color: isActive ? "var(--flaz-dark)" : "rgba(44,44,44,0.55)",
+                    color: isActive ? "var(--flaz-dark)" : "rgba(44,44,44,0.75)",
                     fontWeight: isActive ? 500 : 300,
                   }}
                 >
@@ -60,7 +60,7 @@ export default function FAQSection() {
                 </span>
                 {isActive && (
                   <span className="ml-auto shrink-0 mt-0.5">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ color: "var(--flaz-teal)" }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ color: "var(--flaz-teal-text)" }}>
                       <line x1="5" y1="12" x2="19" y2="12" />
                       <polyline points="12 5 19 12 12 19" />
                     </svg>
@@ -81,7 +81,7 @@ export default function FAQSection() {
               {faqs[active].q}
             </p>
             <p
-              className="font-light text-gray-500 leading-relaxed mb-10"
+              className="font-light text-gray-600 leading-relaxed mb-10"
               style={{ fontSize: "clamp(15px, 1.5vw, 18px)", maxWidth: "54ch" }}
             >
               {faqs[active].a}
@@ -92,14 +92,14 @@ export default function FAQSection() {
               className="flex items-center gap-4 pt-8"
               style={{ borderTop: "1px solid rgba(44,44,44,0.08)" }}
             >
-              <p className="text-[13px] font-light text-gray-400">
+              <p className="text-[13px] font-light text-gray-600">
                 Still have questions?
               </p>
               <Link
                 href="#contact"
                 className="inline-flex items-center gap-1.5 text-[13px] font-medium transition-colors"
-                style={{ color: "var(--flaz-teal)" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--flaz-teal-dark)")}
+                style={{ color: "var(--flaz-teal-text)" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--flaz-teal-text)")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--flaz-teal)")}
               >
                 Talk to our team

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import servicesData from "@/content/services.json";
 
 const { services } = servicesData;
@@ -9,7 +10,7 @@ export default function ServicesGridSection() {
         <div>
           <p
             className="text-[11px] uppercase tracking-[0.2em] font-medium mb-4"
-            style={{ color: "var(--flaz-teal)" }}
+            style={{ color: "var(--flaz-teal-text)" }}
           >
             Full scope
           </p>
@@ -21,7 +22,7 @@ export default function ServicesGridSection() {
           </h2>
         </div>
         <p
-          className="text-[15px] font-light text-gray-500 leading-relaxed"
+          className="text-[15px] font-light text-gray-600 leading-relaxed"
           style={{ maxWidth: "38ch" }}
         >
           Every trade, fully coordinated. One team, one contract, zero gaps between disciplines.
@@ -45,7 +46,7 @@ export default function ServicesGridSection() {
           >
             <span
               className="text-[12px] font-medium tabular-nums shrink-0 pt-0.5"
-              style={{ color: "var(--flaz-teal)", minWidth: "22px" }}
+              style={{ color: "var(--flaz-teal-text)", minWidth: "22px" }}
             >
               {String(i + 1).padStart(2, "0")}
             </span>
@@ -56,7 +57,7 @@ export default function ServicesGridSection() {
               >
                 {s.title}
               </h3>
-              <p className="text-[14px] font-light text-gray-500 leading-relaxed">
+              <p className="text-[14px] font-light text-gray-600 leading-relaxed">
                 {s.desc}
               </p>
             </div>
@@ -66,7 +67,7 @@ export default function ServicesGridSection() {
 
       {/* View all CTA */}
       <div className="flex justify-center mt-10">
-        <a
+        <Link
           href="/services"
           className="flaz-btn-teal inline-flex items-center gap-3 text-[14px] font-medium px-7 py-3 rounded-sm text-white"
         >
@@ -80,7 +81,7 @@ export default function ServicesGridSection() {
               <polyline points="12 5 19 12 12 19" />
             </svg>
           </span>
-        </a>
+        </Link>
       </div>
     </section>
   );

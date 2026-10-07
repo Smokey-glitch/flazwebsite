@@ -19,7 +19,9 @@ export default function ServicesHero() {
             src="/images/dubai-villa-exterior.jpg"
             alt="Flaz Technical Services — professional works"
             fill
-            priority
+            loading="eager"
+            fetchPriority="high"
+            quality={60}
             className="object-cover"
             sizes="100vw"
           />
@@ -64,7 +66,7 @@ export default function ServicesHero() {
                 href="#contact"
                 className="inline-flex items-center gap-2 bg-[#1a1a1a] hover:bg-black text-white text-[15px] font-light px-7 py-3.5 transition-colors self-start shrink-0 tracking-wide"
               >
-                Get free consultation
+                Get a quote
                 <ArrowRight />
               </Link>
             </div>

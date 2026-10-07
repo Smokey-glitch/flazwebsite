@@ -1,23 +1,23 @@
 {
-  "eyebrow": "Renovation & technical services · Dubai",
-  "heading": "Your trusted technical services partner",
-  "description": "We handle everything from design and engineering to approvals and construction, across villas, apartments, offices, and retail spaces.",
-  "primaryCtaLabel": "Get free consultation",
+  "eyebrow": "Dubai · MEP · Maintenance · Renovation",
+  "heading": "Technical Services, MEP & Property Solutions in Dubai",
+  "description": "From HVAC, electrical and plumbing to maintenance, renovation and fit-out, FLAZ provides one accountable team for your property.",
+  "primaryCtaLabel": "Get a quote",
   "primaryCtaHref": "#contact",
-  "secondaryCtaLabel": "View our work",
-  "secondaryCtaHref": "/projects",
+  "secondaryCtaLabel": "WhatsApp us",
+  "secondaryCtaHref": "https://wa.me/971542589887?text=Hello%20Flaz%2C%20I%20would%20like%20to%20discuss%20my%20property.",
   "slides": [
     {
       "src": "/images/dubai-villa-exterior.jpg",
-      "alt": "Villa renovation by Flaz Technical Services"
+      "alt": "Two-storey sandstone villa with carved lattice screens, palm trees, lawn and pool at sunset"
     },
     {
       "src": "/images/dubai-villa-pool.jpg",
-      "alt": "Apartment fit-out by Flaz Technical Services"
+      "alt": "Villa terrace with an infinity pool and a pergola over lounge seating, facing a golf course"
     },
     {
       "src": "/images/dubai-warehouse-shell.jpg",
-      "alt": "Commercial space by Flaz Technical Services"
+      "alt": "Empty steel-framed warehouse interior with roller doors and a concrete floor"
     }
   ]
 }

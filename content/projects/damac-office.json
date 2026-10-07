@@ -2,7 +2,7 @@
   "id": "damac-office",
   "order": 3,
   "title": "DAMAC Smart Heights Office",
-  "desc": "Welcoming lounge, open work zones, and quiet meeting rooms built for daily use. The brief was a workspace that feels professional to clients and comfortable to the team — we delivered both without compromise.",
+  "desc": "Welcoming lounge, open work zones, and quiet meeting rooms built for daily use. The brief was a workspace that feels professional to clients and comfortable to the team : a workspace for clients and the team.",
   "shortDesc": "Functional workspace with lounge, open zones, and dedicated meeting rooms.",
   "image": "/images/business-bay-office.jpg",
   "beforeImage": "/images/before-business-bay-office.jpg",
@@ -16,9 +16,15 @@
     "/images/business-bay-office.jpg",
     "/images/dubai-warehouse-shell.jpg"
   ],
-  "tags": ["Commercial", "Fit-out"],
+  "tags": [
+    "Commercial",
+    "Fit-out"
+  ],
   "area": "Business Bay",
   "year": "2025",
   "scope": "Commercial Fit-out, MEP, Partitioning",
-  "duration": "8 weeks"
+  "duration": "8 weeks",
+  "propertyType": "Office",
+  "objective": "A workspace that feels professional to clients and comfortable for the team.",
+  "execution": "Lounge, open work zones and quiet meeting rooms built for daily use."
 }

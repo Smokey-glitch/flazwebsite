@@ -2,7 +2,7 @@
   "id": "palm-villa",
   "order": 6,
   "title": "Palm Jumeirah Waterfront Villa",
-  "desc": "High-end villa transformation featuring bespoke stonework, a panoramic pool deck, and a custom outdoor living area designed for the UAE climate. One of our most technically complex projects — completed ahead of schedule.",
+  "desc": "High-end villa transformation featuring bespoke stonework, a panoramic pool deck, and a custom outdoor living area designed for the UAE climate. A waterfront villa transformation with stonework, a pool deck and outdoor living.",
   "shortDesc": "High-end transformation with stonework, pool deck, and outdoor living area.",
   "image": "/images/palm-jumeirah-villa.jpg",
   "beforeImage": "/images/before-palm-jumeirah-villa.jpg",
@@ -16,9 +16,17 @@
     "/images/palm-jumeirah-villa.jpg",
     "/images/dubai-villa-pool.jpg"
   ],
-  "tags": ["Villa", "Luxury", "Outdoor"],
+  "tags": [
+    "Villa",
+    "Luxury",
+    "Outdoor"
+  ],
   "area": "Palm Jumeirah",
   "year": "2025",
   "scope": "Full Renovation, Landscaping, Pool, Outdoor",
-  "duration": "20 weeks"
+  "duration": "20 weeks",
+  "propertyType": "Villa",
+  "objective": "A high-end villa transformation with an outdoor living area designed for the UAE climate.",
+  "challenge": "Combining stonework, a panoramic pool deck and outdoor living.",
+  "result": "Completed in 20 weeks."
 }

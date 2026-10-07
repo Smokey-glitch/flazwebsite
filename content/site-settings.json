@@ -4,18 +4,69 @@
   "email": "info@flaztechnicalservices.com",
   "whatsappHref": "https://wa.me/971542589887",
   "address": "Office 510 B, 5th Floor, Al Barsha Business Center, Al Barsha 1, Dubai, United Arab Emirates",
-  "footerTagline": "Full-cycle renovation and technical services for villas, apartments, and commercial spaces across Dubai.",
+  "footerTagline": "Technical services, MEP, maintenance, renovation and fit-out for villas, apartments and commercial properties across Dubai — delivered by one accountable team.",
   "navLinks": [
-    { "label": "Home", "href": "/" },
-    { "label": "Services", "href": "#services" },
-    { "label": "Projects", "href": "/projects" }
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "Services",
+      "href": "/services"
+    },
+    {
+      "label": "Projects",
+      "href": "/projects"
+    },
+    {
+      "label": "Industries",
+      "href": "/industries"
+    },
+    {
+      "label": "About",
+      "href": "/about"
+    },
+    {
+      "label": "Insights",
+      "href": "/insights"
+    },
+    {
+      "label": "Contact",
+      "href": "/contact"
+    }
   ],
   "serviceLinks": [
-    { "label": "Villa transformations", "href": "#services" },
-    { "label": "Commercial fit-out", "href": "#services" },
-    { "label": "Apartment renovation", "href": "#services" },
-    { "label": "Signature services", "href": "#services" },
-    { "label": "HVAC & MEP works", "href": "#services" },
-    { "label": "NOC & permits", "href": "#services" }
+    {
+      "label": "MEP & Technical Services",
+      "href": "/services/mep-technical-services"
+    },
+    {
+      "label": "HVAC & Air-Conditioning",
+      "href": "/services/hvac-air-conditioning"
+    },
+    {
+      "label": "Electrical",
+      "href": "/services/electrical"
+    },
+    {
+      "label": "Plumbing",
+      "href": "/services/plumbing"
+    },
+    {
+      "label": "Property Maintenance",
+      "href": "/services/property-maintenance"
+    },
+    {
+      "label": "Annual Maintenance Contracts",
+      "href": "/services/annual-maintenance-contracts"
+    },
+    {
+      "label": "Renovation & Fit-Out",
+      "href": "/services/renovation-fit-out"
+    },
+    {
+      "label": "Finishing Services",
+      "href": "/services/finishing"
+    }
   ]
 }

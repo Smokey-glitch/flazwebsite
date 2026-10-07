@@ -16,9 +16,15 @@
     "/images/the-lakes-villa-living.jpg",
     "/images/emirati-majlis.jpg"
   ],
-  "tags": ["Villa", "Renovation"],
+  "tags": [
+    "Villa",
+    "Renovation"
+  ],
   "area": "Arabian Ranches",
   "year": "2024",
   "scope": "Full Renovation, Interior Design, Structural",
-  "duration": "10 weeks"
+  "duration": "10 weeks",
+  "propertyType": "Villa",
+  "objective": "Modern comfort with oriental elegance, using warm materials and precise craftsmanship.",
+  "execution": "Structural changes were approved and executed within a single continuous build phase."
 }

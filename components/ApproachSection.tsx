@@ -12,7 +12,7 @@ export default function ApproachSection() {
         <div className="lg:sticky lg:self-start" style={{ top: "88px" }}>
           <p
             className="text-[11px] uppercase tracking-[0.2em] font-medium mb-4"
-            style={{ color: "var(--flaz-teal)" }}
+            style={{ color: "var(--flaz-teal-text)" }}
           >
             {eyebrow}
           </p>
@@ -23,7 +23,7 @@ export default function ApproachSection() {
             {headingLine1}<br />{headingLine2}
           </h2>
           <p
-            className="font-light text-gray-500 leading-relaxed mb-10"
+            className="font-light text-gray-600 leading-relaxed mb-10"
             style={{ fontSize: "clamp(15px, 1.5vw, 18px)", maxWidth: "36ch" }}
           >
             {intro}
@@ -50,7 +50,7 @@ export default function ApproachSection() {
             >
               <span
                 className="text-[12px] font-medium tabular-nums shrink-0 pt-1"
-                style={{ color: "var(--flaz-teal)", letterSpacing: "0.05em", minWidth: "22px" }}
+                style={{ color: "var(--flaz-teal-text)", letterSpacing: "0.05em", minWidth: "22px" }}
               >
                 {String(i + 1).padStart(2, "0")}
               </span>
@@ -62,7 +62,7 @@ export default function ApproachSection() {
                   {step.title}
                 </h3>
                 <p
-                  className="font-light text-gray-500 leading-relaxed"
+                  className="font-light text-gray-600 leading-relaxed"
                   style={{ fontSize: "clamp(15px, 1.4vw, 17px)", maxWidth: "52ch" }}
                 >
                   {step.body}

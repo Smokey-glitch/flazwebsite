@@ -15,7 +15,7 @@ export default function WhyUsSection() {
           <div key={i} className="flex-1 pr-0 md:pr-8 pl-0 md:pl-8 first:pl-0 last:pr-0 py-4 md:py-0">
             <p className="text-[16px] md:text-[19px] lg:text-[22px] leading-snug font-medium text-[var(--flaz-dark)]">
               {stat.before && <span>{stat.before}</span>}
-              <span style={{ color: "var(--flaz-teal)" }}>{stat.highlight}</span>
+              <span style={{ color: "var(--flaz-teal-text)" }}>{stat.highlight}</span>
               {stat.rest && <span>{stat.rest}</span>}
             </p>
           </div>

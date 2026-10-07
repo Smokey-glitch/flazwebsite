@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { imageAlt } from "@/lib/image-alt";
 import { useState, useRef, useCallback, useEffect } from "react";
 
 interface BeforeAfterSliderProps {
@@ -39,6 +40,19 @@ export default function BeforeAfterSlider({ before, after, alt }: BeforeAfterSli
     [updatePosition]
   );
 
+  // Keyboard support for the handle: arrows nudge, Home/End jump to the ends.
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    const step = e.shiftKey ? 10 : 5;
+    let next: number | null = null;
+    if (e.key === "ArrowLeft" || e.key === "ArrowDown") next = position - step;
+    else if (e.key === "ArrowRight" || e.key === "ArrowUp") next = position + step;
+    else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = 100;
+    if (next === null) return;
+    e.preventDefault();
+    setPosition(Math.max(0, Math.min(100, next)));
+  }, [position]);
+
   useEffect(() => {
     if (!isDragging) return;
 
@@ -71,7 +85,7 @@ export default function BeforeAfterSlider({ before, after, alt }: BeforeAfterSli
       {/* Before image — full area underneath */}
       <Image
         src={before}
-        alt={`Before — ${alt}`}
+        alt={`Before: ${imageAlt(before, alt)}`}
         fill
         priority
         className="object-cover"
@@ -85,7 +99,7 @@ export default function BeforeAfterSlider({ before, after, alt }: BeforeAfterSli
       >
         <Image
           src={after}
-          alt={`After — ${alt}`}
+          alt={`After: ${imageAlt(after, alt)}`}
           fill
           priority
           className="object-cover"
@@ -110,7 +124,16 @@ export default function BeforeAfterSlider({ before, after, alt }: BeforeAfterSli
 
         {/* Handle circle */}
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
+          role="slider"
+          tabIndex={0}
+          aria-label="Before and after comparison"
+          aria-orientation="horizontal"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(position)}
+          aria-valuetext={`${Math.round(position)}% before image shown`}
+          onKeyDown={handleKeyDown}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--flaz-teal)]"
           style={{
             width: "44px",
             height: "44px",
@@ -123,6 +146,7 @@ export default function BeforeAfterSlider({ before, after, alt }: BeforeAfterSli
           <svg
             width="18"
             height="18"
+            aria-hidden="true"
             viewBox="0 0 24 24"
             fill="none"
             stroke="rgba(44,44,44,0.7)"

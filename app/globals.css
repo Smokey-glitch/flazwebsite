@@ -39,6 +39,8 @@
 :root {
   --flaz-teal: #4DC8C8;
   --flaz-teal-dark: #3aabab;
+  /* Text-safe teal: 5.2:1 on #ECEAE6, 6.2:1 on white. Use for teal-coloured text on light surfaces. */
+  --flaz-teal-text: #1d6b6b;
   --flaz-dark: #2c2c2c;
   --flaz-light-blue: #B8D8E8;
   --background: #ECEAE6;
@@ -129,6 +131,15 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+  /* Keep focused controls and #anchors clear of the fixed header and mobile action bar */
+  scroll-padding-top: 84px;
+  scroll-padding-bottom: 24px;
+}
+@media (max-width: 1023px) {
+  html { scroll-padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }
 
 body {
@@ -202,6 +213,8 @@ body::before {
 /* Server-component-safe hover utilities (no JS event handlers needed) */
 .flaz-btn-teal {
   background-color: var(--flaz-teal);
+  /* Dark text on teal: 6.9:1 (white would be 2.0:1) */
+  color: var(--flaz-dark);
   transition: background-color 280ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 .flaz-btn-teal:hover {
@@ -209,11 +222,11 @@ body::before {
 }
 
 .flaz-link-muted {
-  color: rgba(44, 44, 44, 0.45);
+  color: rgba(44, 44, 44, 0.72);
   transition: color 250ms ease;
 }
 .flaz-link-muted:hover {
-  color: var(--flaz-teal);
+  color: var(--flaz-teal-text);
 }
 
 @keyframes faq-fade-in {
@@ -229,5 +242,151 @@ body::before {
   -ms-overflow-style: none;
 }
 .hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Redesign utilities (server-component safe) ─────────────────────── */
+.flaz-btn-ghost-light {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: white;
+  transition: background-color 250ms ease, border-color 250ms ease;
+}
+.flaz-btn-ghost-light:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+.flaz-btn-ghost-dark {
+  border: 1px solid rgba(44, 44, 44, 0.25);
+  color: var(--flaz-dark);
+  transition: background-color 250ms ease, border-color 250ms ease;
+}
+.flaz-btn-ghost-dark:hover {
+  border-color: var(--flaz-dark);
+  background-color: rgba(44, 44, 44, 0.04);
+}
+.flaz-btn-wa {
+  background-color: #17803f;
+  color: white;
+  transition: background-color 250ms ease;
+}
+.flaz-btn-wa:hover {
+  background-color: #12683a;
+}
+.flaz-card {
+  background: white;
+  transition: transform 400ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 400ms ease;
+}
+.flaz-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.28);
+}
+.flaz-arrow-link {
+  color: var(--flaz-teal-text);
+  transition: color 200ms ease, gap 200ms ease;
+}
+.flaz-arrow-link:hover {
+  color: var(--flaz-dark);
+}
+.flaz-img-zoom img {
+  transition: transform 800ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+.flaz-img-zoom:hover img {
+  transform: scale(1.04);
+}
+
+/* Subtle scroll reveal — progressive enhancement, disabled for reduced motion */
+@keyframes flaz-rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .flaz-reveal {
+      animation: flaz-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+}
+
+/* Room for the fixed mobile action bar */
+@media (max-width: 1023px) {
+  body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
+}
+@media (max-width: 1023px) and (max-height: 500px) and (orientation: landscape) {
+  body { padding-bottom: calc(44px + env(safe-area-inset-bottom)); }
+}
+
+@custom-variant landscape-short (@media (max-width: 1023px) and (max-height: 500px) and (orientation: landscape));
+
+/* Visible keyboard focus everywhere (2px, 3:1+) */
+:focus-visible {
+  outline: 2px solid var(--flaz-teal-text);
+  outline-offset: 2px;
+}
+
+
+/* Hero photo scrim: stronger on phones where text spans most of the image */
+.flaz-hero-scrim {
+  background:
+    linear-gradient(to right, rgba(5,5,5,0.62) 0%, rgba(5,5,5,0.32) 50%, transparent 85%),
+    linear-gradient(to top, rgba(5,5,5,0.9) 0%, rgba(5,5,5,0.45) 38%, rgba(5,5,5,0.1) 65%, transparent 100%);
+}
+@media (max-width: 639px) {
+  .flaz-hero-scrim {
+    background: linear-gradient(to top, rgba(5,5,5,0.92) 0%, rgba(5,5,5,0.7) 55%, rgba(5,5,5,0.45) 80%, rgba(5,5,5,0.3) 100%);
+  }
+}
+
+/* /projects header: on phones the diagonal panel would run text onto the teal, so use a solid dark header */
+@media (max-width: 767px) {
+  .flaz-proj-hero { background-color: #111 !important; }
+  .flaz-proj-hero > [aria-hidden="true"] { display: none; }
+}
+
+/* Header row: shared clamp padding on mobile; on desktop it is capped so the full nav fits without crowding */
+.flaz-nav-pad {
+  padding-inline: clamp(16px, calc(-57px + 19.5vw), 318px);
+}
+@media (min-width: 1024px) {
+  .flaz-nav-pad {
+    padding-inline: min(clamp(16px, calc(-57px + 19.5vw), 318px), 6vw);
+  }
+}
+
+/* Compact homepage hero: fills the first screen without pushing the buttons below the fold */
+.flaz-home-hero {
+  min-height: min(620px, max(380px, calc(100svh - 150px)));
+}
+@media (max-width: 639px) {
+  .flaz-home-hero { min-height: min(440px, max(320px, calc(100svh - 280px))); }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .flaz-home-hero { min-height: 0; }
+  .flaz-home-hero .flaz-hero-eyebrow { display: none; }
+  .flaz-home-hero > div:last-child { padding-top: 14px; padding-bottom: 14px; }
+  .flaz-home-hero > div:last-child > div { max-width: min(720px, 80vw) !important; gap: 8px; }
+  .flaz-home-hero h1 { font-size: 26px !important; }
+  .flaz-home-hero .flaz-hero-scrim { background: rgba(5,5,5,0.72); }
+  .flaz-home-hero p { font-size: 14px !important; line-height: 1.5; }
+}
+
+/* Below-the-fold scroll reveal (applied by JS after hydration; never applied under reduced motion) */
+[data-reveal] {
+  transition: opacity 700ms cubic-bezier(0.32, 0.72, 0, 1), transform 700ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+.flaz-reveal-pending {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+/* Shows content only if it is still needed after a short delay (avoids a flash for fast loads) */
+@keyframes flaz-delayed-in { from { opacity: 0; } to { opacity: 1; } }
+.flaz-delayed-in { animation: flaz-delayed-in 0s linear 250ms both; }
+
+/* The mobile action bar steps aside while a modal, the mobile menu or a text field is active */
+body[data-modal-open] .flaz-action-bar,
+body[data-menu-open] .flaz-action-bar,
+body[data-field-focus] .flaz-action-bar {
   display: none;
 }

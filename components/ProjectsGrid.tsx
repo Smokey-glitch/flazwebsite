@@ -3,32 +3,41 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { imageAlt } from "@/lib/image-alt";
 import { type Project } from "@/lib/projects";
 
+/**
+ * Subtle staggered reveal for cards that start below the fold. Content is visible by default (server HTML,
+ * no-JS, reduced motion); only after hydration are below-the-fold cards marked pending, then revealed as they
+ * scroll into view. Cards already on screen are never hidden, so nothing flashes.
+ */
 function useStaggerReveal() {
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
     const container = ref.current;
-    if (!container) return;
-    const items = container.querySelectorAll<HTMLElement>("[data-reveal]");
+    if (!container || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const items = Array.from(container.querySelectorAll<HTMLElement>("[data-reveal]"));
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const el = entry.target as HTMLElement;
-            const delay = Number(el.dataset.delay ?? 0);
-            setTimeout(() => {
-              el.style.opacity = "1";
-              el.style.transform = "translateY(0)";
-            }, delay);
-            observer.unobserve(el);
-          }
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          el.style.transitionDelay = `${Number(el.dataset.delay ?? 0)}ms`;
+          el.classList.remove("flaz-reveal-pending");
+          observer.unobserve(el);
         });
       },
       { threshold: 0.07 }
     );
-    items.forEach((item) => observer.observe(item));
-    return () => observer.disconnect();
+    items.forEach((item) => {
+      if (item.getBoundingClientRect().top < window.innerHeight) return;
+      item.classList.add("flaz-reveal-pending");
+      observer.observe(item);
+    });
+    return () => {
+      observer.disconnect();
+      items.forEach((item) => item.classList.remove("flaz-reveal-pending"));
+    };
   }, []);
   return ref;
 }
@@ -50,17 +59,14 @@ function PortraitCard({ project, delay }: { project: Project; delay: number }) {
       data-delay={delay}
       className="group relative overflow-hidden block h-full"
       style={{
-        opacity: 0,
-        transform: "translateY(28px)",
-        transition: "opacity 700ms cubic-bezier(0.32, 0.72, 0, 1), transform 700ms cubic-bezier(0.32, 0.72, 0, 1)",
         border: "1px solid rgba(44,44,44,0.1)",
         borderRadius: "3px",
-        minHeight: "clamp(300px, 32vw, 480px)",
+        minHeight: "clamp(240px, 32vw, 480px)",
       }}
     >
       <Image
         src={project.image}
-        alt={project.title}
+        alt={imageAlt(project.image, project.title)}
         fill
         className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
         style={{ transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)" }}
@@ -69,7 +75,7 @@ function PortraitCard({ project, delay }: { project: Project; delay: number }) {
 
       <div
         className="absolute inset-0"
-        style={{ background: "linear-gradient(to top, rgba(18,18,18,0.88) 0%, rgba(18,18,18,0.28) 45%, transparent 68%)" }}
+        style={{ background: "linear-gradient(to top, rgba(18,18,18,0.92) 0%, rgba(18,18,18,0.72) 40%, rgba(18,18,18,0.2) 70%, transparent 88%)" }}
       />
 
       {/* Glass panel */}
@@ -89,11 +95,11 @@ function PortraitCard({ project, delay }: { project: Project; delay: number }) {
           {project.tags.map((tag) => (
             <span
               key={tag}
-              className="text-[10px] uppercase tracking-[0.13em] font-medium px-2.5 py-0.5"
+              className="text-[11px] uppercase tracking-[0.13em] font-medium px-2.5 py-0.5"
               style={{
-                background: "rgba(255,255,255,0.07)",
-                color: "rgba(255,255,255,0.62)",
-                border: "1px solid rgba(255,255,255,0.1)",
+                background: "rgba(10,10,10,0.55)",
+                color: "rgba(255,255,255,0.92)",
+                border: "1px solid rgba(255,255,255,0.22)",
                 boxShadow: "inset 0 1px 0 rgba(255,255,255,0.05)",
                 borderRadius: "2px",
               }}
@@ -111,12 +117,12 @@ function PortraitCard({ project, delay }: { project: Project; delay: number }) {
         </h3>
 
         <div className="flex items-center justify-between gap-3">
-          <p className="text-[11px] font-light" style={{ color: "rgba(255,255,255,0.38)" }}>
+          <p className="text-[11px] font-light" style={{ color: "rgba(255,255,255,0.85)" }}>
             {project.area} · {project.year}
           </p>
           <span
             className="inline-flex items-center gap-1.5 text-[12px] font-medium transition-all duration-300"
-            style={{ color: "rgba(255,255,255,0.62)" }}
+            style={{ color: "rgba(255,255,255,0.92)" }}
           >
             View project
             <span
@@ -132,7 +138,7 @@ function PortraitCard({ project, delay }: { project: Project; delay: number }) {
   );
 }
 
-function FeaturedCard({ project, delay, flip = false }: { project: Project; delay: number; flip?: boolean }) {
+function FeaturedCard({ project, delay, flip = false, eager = false }: { project: Project; delay: number; flip?: boolean; eager?: boolean }) {
   return (
     <Link
       href={`/projects/${project.id}`}
@@ -140,9 +146,6 @@ function FeaturedCard({ project, delay, flip = false }: { project: Project; dela
       data-delay={delay}
       className="group overflow-hidden block"
       style={{
-        opacity: 0,
-        transform: "translateY(28px)",
-        transition: "opacity 700ms cubic-bezier(0.32, 0.72, 0, 1), transform 700ms cubic-bezier(0.32, 0.72, 0, 1)",
         border: "1px solid rgba(44,44,44,0.1)",
         borderRadius: "3px",
         background: "rgba(44,44,44,0.02)",
@@ -160,10 +163,10 @@ function FeaturedCard({ project, delay, flip = false }: { project: Project; dela
               {project.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-[10px] uppercase tracking-[0.15em] font-medium px-3 py-1"
+                  className="text-[11px] uppercase tracking-[0.15em] font-medium px-3 py-1"
                   style={{
                     border: "1px solid rgba(77,200,200,0.35)",
-                    color: "var(--flaz-teal)",
+                    color: "var(--flaz-teal-text)",
                     background: "rgba(77,200,200,0.06)",
                     borderRadius: "2px",
                   }}
@@ -179,7 +182,7 @@ function FeaturedCard({ project, delay, flip = false }: { project: Project; dela
               {project.title}
             </h3>
             <p
-              className="text-[13px] font-light text-gray-500 leading-relaxed"
+              className="text-[13px] font-light text-gray-600 leading-relaxed"
               style={{ maxWidth: "40ch" }}
             >
               {project.shortDesc}
@@ -188,11 +191,11 @@ function FeaturedCard({ project, delay, flip = false }: { project: Project; dela
 
           <div className="flex items-center justify-between mt-8 flex-wrap gap-4">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.13em] text-gray-400 mb-0.5">Location · Year</p>
+              <p className="text-[11px] uppercase tracking-[0.13em] text-gray-600 mb-0.5">Location · Year</p>
               <p className="text-[13px] font-medium text-[var(--flaz-dark)]">{project.area} · {project.year}</p>
             </div>
             <span
-              className="inline-flex items-center gap-2 text-[13px] font-medium text-white rounded-sm px-5 py-2.5 transition-colors duration-300"
+              className="inline-flex items-center gap-2 text-[13px] font-medium text-[var(--flaz-dark)] rounded-sm px-5 py-2.5 transition-colors duration-300"
               style={{ backgroundColor: "var(--flaz-teal)" }}
               onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--flaz-teal-dark)")}
               onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--flaz-teal)")}
@@ -209,11 +212,12 @@ function FeaturedCard({ project, delay, flip = false }: { project: Project; dela
         <div className="relative" style={{ minHeight: "220px", direction: "ltr" }}>
           <Image
             src={project.image}
-            alt={project.title}
+            alt={imageAlt(project.image, project.title)}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
             style={{ transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)" }}
             sizes="(max-width: 768px) 100vw, 45vw"
+            loading={eager ? "eager" : undefined}
           />
           <div
             className="absolute inset-0 transition-opacity duration-500 group-hover:opacity-0"
@@ -236,7 +240,7 @@ export default function ProjectsGrid({ projects }: { projects: Project[] }) {
 
         {/* Row 1 — wide featured card */}
         <div className="md:col-span-12 md:row-start-1">
-          <FeaturedCard project={p0} delay={80} />
+          <FeaturedCard project={p0} delay={80} eager />
         </div>
 
         {/* Row 2 — large left + small right */}

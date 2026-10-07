@@ -20,7 +20,7 @@ const greeting: Message = {
 function getAIResponse(input: string): string {
   const q = input.toLowerCase();
   if (q.includes("price") || q.includes("cost") || q.includes("how much"))
-    return "Our pricing depends on the scope of work. You can use the cost calculator on our homepage, or leave your contact details and our team will provide a detailed quote within 24 hours.";
+    return "Our pricing depends on the scope of work. You can use the cost calculator on our homepage, or leave your contact details and our team will contact you about a quote.";
   if (q.includes("service") || q.includes("offer") || q.includes("do you"))
     return "We offer electrical works, plumbing & sanitary, civil works, MEP services, fit-out & renovation, NOC & permits, and smart home integration. Which service are you interested in?";
   if (q.includes("contact") || q.includes("call") || q.includes("reach") || q.includes("phone"))

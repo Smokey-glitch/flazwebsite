@@ -4,9 +4,9 @@ import ProjectsGrid from "@/components/ProjectsGrid";
 import ContactFooter from "@/components/ContactFooter";
 
 export const metadata: Metadata = {
-  title: "Projects — Flaz Technical Services",
+  title: "Projects & Case Studies in Dubai",
   description:
-    "Browse completed villa, apartment, and commercial renovations across Dubai. Every project delivered from a single point of contact.",
+    "Villa, apartment and commercial renovation, MEP and fit-out case studies across Dubai — The Lakes, Arabian Ranches, Business Bay, Dubai Hills, JVC and Palm Jumeirah.",
 };
 
 export default function ProjectsPage() {
@@ -14,6 +14,7 @@ export default function ProjectsPage() {
     <main>
       {/* Page header — full-bleed dark */}
       <div
+        className="flaz-proj-hero"
         style={{
           marginLeft: "calc(clamp(16px, calc(-57px + 19.5vw), 318px) * -1)",
           marginRight: "calc(clamp(16px, calc(-57px + 19.5vw), 318px) * -1)",
@@ -24,7 +25,7 @@ export default function ProjectsPage() {
       >
         {/* Dark shape — left panel with diagonal right edge */}
         <div aria-hidden="true" style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
-          <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ width: "100%", height: "100%", display: "block" }}>
+          <svg className="flaz-proj-shape" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ width: "100%", height: "100%", display: "block" }}>
             <path d="M 0 0 L 62 0 L 45 100 L 0 100 Z" fill="#111111" />
           </svg>
         </div>
@@ -45,26 +46,26 @@ export default function ProjectsPage() {
             position: "relative", zIndex: 1,
             paddingLeft: "clamp(16px, calc(-57px + 19.5vw), 318px)",
             paddingRight: "clamp(16px, calc(-57px + 19.5vw), 318px)",
-            paddingTop: "64px",
-            paddingBottom: "56px",
+            paddingTop: "clamp(28px, 6vw, 64px)",
+            paddingBottom: "clamp(28px, 5vw, 56px)",
           }}
         >
           {/* Eyebrow pill */}
-          <div className="inline-flex items-center mb-8">
+          <div className="inline-flex items-center mb-5 md:mb-8">
             <span
-              className="text-[10px] uppercase tracking-[0.2em] font-medium px-3 py-1 rounded-full"
+              className="text-[11px] uppercase tracking-[0.2em] font-medium px-3 py-1 rounded-full"
               style={{
                 border: "1px solid rgba(255,255,255,0.2)",
                 color: "rgba(255,255,255,0.7)",
                 background: "rgba(255,255,255,0.08)",
               }}
             >
-              Portfolio
+              Real FLAZ projects
             </span>
           </div>
 
           {/* Heading + sub */}
-          <div className="flex items-end justify-between gap-8 flex-wrap mb-16">
+          <div className="flex items-end justify-between gap-5 md:gap-8 flex-wrap mb-6 md:mb-16">
             <h1
               className="font-medium text-white leading-none tracking-tight"
               style={
@@ -74,14 +75,14 @@ export default function ProjectsPage() {
                 } as React.CSSProperties
               }
             >
-              Every project,<br />
+              Projects &amp;<br />
               <span style={{ fontWeight: 300, color: "rgba(255,255,255,0.4)" }}>
-                built from scratch.
+                Case Studies.
               </span>
             </h1>
             <p
               className="text-[14px] font-light leading-relaxed"
-              style={{ maxWidth: "40ch", color: "rgba(255,255,255,0.55)" }}
+              style={{ maxWidth: "44ch", color: "rgba(255,255,255,0.88)", backgroundColor: "#111111", padding: "16px 20px", borderRadius: "2px" }}
             >
               From permit approvals to final handover — each project is managed by a single team so nothing falls through the cracks.
             </p>
@@ -95,7 +96,7 @@ export default function ProjectsPage() {
         <div>
           <p
             className="text-[11px] uppercase tracking-[0.2em] font-medium mb-3"
-            style={{ color: "var(--flaz-teal)" }}
+            style={{ color: "var(--flaz-teal-text)" }}
           >
             Our work
           </p>
@@ -107,7 +108,7 @@ export default function ProjectsPage() {
           </h2>
         </div>
         <p
-          className="text-[15px] font-light text-gray-500 leading-relaxed"
+          className="text-[15px] font-light text-gray-600 leading-relaxed"
           style={{ maxWidth: "40ch" }}
         >
           Every project delivered on time, on spec, and from a single point of contact.
@@ -120,15 +121,15 @@ export default function ProjectsPage() {
 
       {/* CTA bar */}
       <div
-        className="flex flex-col sm:flex-row items-center justify-between gap-6 py-12 mt-8 mb-4"
+        className="max-lg:hidden flex flex-col sm:flex-row items-center justify-between gap-6 py-12 mt-8 mb-4"
         style={{ borderTop: "1px solid rgba(44,44,44,0.1)", borderBottom: "1px solid rgba(44,44,44,0.1)" }}
       >
         <div>
           <p className="font-medium text-[var(--flaz-dark)] text-[18px] md:text-[22px] tracking-tight mb-1">
             Ready to start your own project?
           </p>
-          <p className="text-[14px] font-light text-gray-500">
-            Leave your details and we will call you within 24 hours.
+          <p className="text-[14px] font-light text-gray-600">
+            Leave your details and we will contact you about your project.
           </p>
         </div>
         <a
