@@ -42,3 +42,11 @@ next-env.d.ts
 
 # generated from content/projects/*.json by scripts/generate-projects.mjs
 /lib/projects.generated.json
+
+# AI image working files (large PNG originals and drop folders; web versions live in public/images/service-illustrations)
+/service-illustrations/originals/
+/service-illustrations/logo-drop/
+/service-illustrations/hvac-logo-drop/
+/service-illustrations/logo-test/
+/service-illustrations/previews/
+/service-illustrations/screenshots/

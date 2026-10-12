@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { company } from "@/lib/company";
+import { company, phoneWaLink } from "@/lib/company";
 
 export function LegalPageLayout({
   eyebrow,
@@ -63,9 +63,9 @@ export function LegalContact() {
         <br />
         <a href={`mailto:${company.email}`} className="underline">{company.email}</a>
         <br />
-        <a href={company.phoneHref} className="underline">{company.phone}</a>
+        <a href={phoneWaLink(company.phone)} target="_blank" rel="noopener noreferrer" aria-label={`WhatsApp us on ${company.phone}`} className="underline">{company.phone}</a>
         <br />
-        <a href={company.phone2Href} className="underline">{company.phone2}</a>
+        <a href={phoneWaLink(company.phone2)} target="_blank" rel="noopener noreferrer" aria-label={`WhatsApp us on ${company.phone2}`} className="underline">{company.phone2}</a>
         {company.tradeLicence && (
           <>
             <br />

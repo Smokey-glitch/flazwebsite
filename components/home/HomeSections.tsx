@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowIcon, Bleed, SectionHeading, WhatsAppIcon } from "@/components/blocks";
-import { CategoryIcon } from "@/components/ServiceCatalogue";
+import { CategoryIcon } from "@/components/CategoryIcon";
 import { imageAlt } from "@/lib/image-alt";
 import { catalogue, catalogueHref } from "@/lib/service-catalogue";
 import { problems } from "@/lib/site-content";

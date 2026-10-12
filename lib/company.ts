@@ -13,13 +13,21 @@ export const company = {
   tradeLicence: "" as string,
   name: "Flaz Technical Services",
   phone: siteSettings.phone,
+  /** Only for the mobile bar's "Call us" button on /contact; displayed numbers open WhatsApp via phoneWaLink. */
   phoneHref: siteSettings.phoneHref,
   phone2: siteSettings.phone2,
-  phone2Href: siteSettings.phone2Href,
   email: siteSettings.email,
   whatsappHref: siteSettings.whatsappHref,
   address: siteSettings.address,
 };
+
+/** Default message prefilled when someone taps a phone number. */
+export const INQUIRY_MESSAGE = "Hello Flaz, I would like to discuss my property.";
+
+/** WhatsApp link for a displayed phone number (any format), with the enquiry message prefilled. */
+export function phoneWaLink(phone: string, message: string = INQUIRY_MESSAGE) {
+  return `https://wa.me/${phone.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
+}
 
 /** WhatsApp deep link with a prefilled message. */
 export function waLink(message?: string) {

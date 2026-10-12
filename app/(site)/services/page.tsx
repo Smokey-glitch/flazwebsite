@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ContactFooter from "@/components/ContactFooter";
 import { PageHero } from "@/components/ServicePageView";
-import { IconTile } from "@/components/ServiceCatalogue";
+import { IconTile } from "@/components/CategoryIcon";
 import { ArrowIcon, QuoteButton, SectionHeading, WhatsAppButton } from "@/components/blocks";
 import { catalogue, catalogueHref, catalogueTotal } from "@/lib/service-catalogue";
 import { getService } from "@/lib/services-data";

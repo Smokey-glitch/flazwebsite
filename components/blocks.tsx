@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { INTENTS, type IntentKey, company, waLink } from "@/lib/company";
+import { INTENTS, type IntentKey, company, phoneWaLink, waLink } from "@/lib/company";
 
 export const PAD = "clamp(16px, calc(-57px + 19.5vw), 318px)";
 
@@ -187,24 +187,28 @@ export function WhatsAppButton({
   );
 }
 
-export function CallButton({
-  label = "Call us",
+/** A phone number that opens WhatsApp with the enquiry message prefilled. */
+export function PhoneNumberButton({
+  phone = company.phone,
   variant = "ghost-dark",
   className = "",
   desktopOnly = false,
 }: {
-  label?: string;
+  phone?: string;
   variant?: "ghost-light" | "ghost-dark";
   className?: string;
   desktopOnly?: boolean;
 }) {
   return (
     <a
-      href={company.phoneHref}
+      href={phoneWaLink(phone)}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`WhatsApp us on ${phone}`}
       className={`${btnBase} ${variant === "ghost-light" ? "flaz-btn-ghost-light" : "flaz-btn-ghost-dark"} ${desktopOnly ? "max-lg:hidden" : ""} ${className}`}
     >
-      <PhoneIcon />
-      {label}
+      <WhatsAppIcon />
+      {phone}
     </a>
   );
 }

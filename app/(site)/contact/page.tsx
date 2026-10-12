@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import ContactFooter from "@/components/ContactFooter";
 import EnquiryForm from "@/components/EnquiryForm";
 import { PageHero } from "@/components/ServicePageView";
-import { CallButton, Eyebrow, PhoneIcon, WhatsAppButton, WhatsAppIcon } from "@/components/blocks";
-import { INTENTS, company, waLink } from "@/lib/company";
+import { Eyebrow, PhoneNumberButton, WhatsAppButton, WhatsAppIcon } from "@/components/blocks";
+import { INTENTS, company, phoneWaLink, waLink } from "@/lib/company";
 import { coverageNote } from "@/lib/site-content";
 
 export const metadata: Metadata = {
@@ -36,7 +36,7 @@ export default function ContactPage() {
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <WhatsAppButton message={INTENTS.technical.waMessage} label="WhatsApp Flaz" desktopOnly />
-            <CallButton label={company.phone} desktopOnly />
+            <PhoneNumberButton desktopOnly />
           </div>
         </div>
       </section>
@@ -47,12 +47,12 @@ export default function ContactPage() {
             <div>
               <dt className="text-[11px] uppercase tracking-[0.15em] text-gray-600 mb-1">Phone</dt>
               <dd>
-                <a href={company.phoneHref} className="inline-flex items-center gap-2 min-h-[44px] font-medium text-[var(--flaz-dark)] hover:underline">
-                  <PhoneIcon /> {company.phone}
+                <a href={phoneWaLink(company.phone)} target="_blank" rel="noopener noreferrer" aria-label={`WhatsApp us on ${company.phone}`} className="inline-flex items-center gap-2 min-h-[44px] font-medium text-[var(--flaz-dark)] hover:underline">
+                  <WhatsAppIcon /> {company.phone}
                 </a>
                 <br />
-                <a href={company.phone2Href} className="inline-flex items-center gap-2 min-h-[44px] font-medium text-[var(--flaz-dark)] hover:underline">
-                  <PhoneIcon /> {company.phone2}
+                <a href={phoneWaLink(company.phone2)} target="_blank" rel="noopener noreferrer" aria-label={`WhatsApp us on ${company.phone2}`} className="inline-flex items-center gap-2 min-h-[44px] font-medium text-[var(--flaz-dark)] hover:underline">
+                  <WhatsAppIcon /> {company.phone2}
                 </a>
               </dd>
             </div>

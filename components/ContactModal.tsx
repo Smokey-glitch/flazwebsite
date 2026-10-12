@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect, useCallback, useRef } from "react";
-import { INTENTS, company, waLink, type IntentKey } from "@/lib/company";
+import { INTENTS, company, phoneWaLink, waLink, type IntentKey } from "@/lib/company";
 
 // zod + react-hook-form + the form UI (~100 KB compressed) are fetched on first intent or open, not on every page view.
 type FormComponent = typeof import("@/components/ContactModalForm").default;
@@ -289,17 +289,14 @@ export default function ContactModal() {
                         >
                           {retries >= 1 ? "Reload page" : "Try again"}
                         </button>
-                        <a href={company.phoneHref} className="flaz-btn-ghost-dark inline-flex items-center px-6 min-h-[48px] text-[15px] font-medium" style={{ borderRadius: "6px" }}>
-                          Call {company.phone}
-                        </a>
                         <a
-                          href={waLink(INTENTS[intent].waMessage)}
+                          href={phoneWaLink(company.phone, INTENTS[intent].waMessage)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flaz-btn-ghost-dark inline-flex items-center px-6 min-h-[48px] text-[15px] font-medium"
                           style={{ borderRadius: "6px" }}
                         >
-                          WhatsApp us
+                          WhatsApp {company.phone}
                         </a>
                       </div>
                     </div>

@@ -188,7 +188,7 @@ export default function ServicePageView({ s }: { s: ServicePage }) {
           "@type": "OfferCatalog",
           name: `${s.navLabel} services`,
           itemListElement: s.catalogue.flatMap((k) =>
-            catalogueByKey[k].items.map((name) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name } }))
+            catalogueByKey[k].items.map((i) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: i.name } }))
           ),
         },
       }),

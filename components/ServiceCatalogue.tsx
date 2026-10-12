@@ -1,39 +1,8 @@
-import { Hammer, PaintRoller, BrickWall, Layers, Zap, Droplets, AirVent, type LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { CheckIcon, SectionHeading } from "@/components/blocks";
-import {
-  catalogueByKey,
-  type CatalogueCategory,
-  type CatalogueIcon,
-  type CatalogueKey,
-} from "@/lib/service-catalogue";
-
-const ICONS: Record<CatalogueIcon, LucideIcon> = {
-  hammer: Hammer,
-  "paint-roller": PaintRoller,
-  "brick-wall": BrickWall,
-  layers: Layers,
-  zap: Zap,
-  droplets: Droplets,
-  "air-vent": AirVent,
-};
-
-/** One consistent line icon per category, used wherever a photo is not available. */
-export function CategoryIcon({ icon, size = 22, className = "" }: { icon: CatalogueIcon; size?: number; className?: string }) {
-  const Icon = ICONS[icon];
-  return <Icon size={size} strokeWidth={1.6} aria-hidden="true" className={className} />;
-}
-
-export function IconTile({ icon, size = 44 }: { icon: CatalogueIcon; size?: number }) {
-  return (
-    <span
-      className="inline-flex shrink-0 items-center justify-center rounded-sm"
-      style={{ width: size, height: size, backgroundColor: "rgba(77,200,200,0.14)", color: "var(--flaz-teal-text)" }}
-    >
-      <CategoryIcon icon={icon} size={Math.round(size * 0.5)} />
-    </span>
-  );
-}
+import { CategoryIcon, IconTile } from "@/components/CategoryIcon";
+import { ServiceItemButton, ServicePreviewProvider, type PreviewItem } from "@/components/ServicePreview";
+import { SectionHeading } from "@/components/blocks";
+import { catalogueByKey, type CatalogueCategory, type CatalogueKey } from "@/lib/service-catalogue";
 
 function CategoryList({ c }: { c: CatalogueCategory }) {
   const headingId = `${c.key}-heading`;
@@ -51,18 +20,30 @@ function CategoryList({ c }: { c: CatalogueCategory }) {
         </div>
       </div>
       <ul className="md:columns-2 md:gap-x-10">
-        {c.items.map((item) => (
-          <li key={item} className="flex gap-3 py-3 border-t border-black/10 break-inside-avoid text-[14px] md:text-[15px] font-light text-gray-700 leading-snug">
-            <CheckIcon />
-            <span>{item}</span>
-          </li>
-        ))}
+        {c.items.map((item) => {
+          const preview: PreviewItem = {
+            id: item.id,
+            name: item.name,
+            description: item.description,
+            image: item.image,
+            categoryName: c.name,
+            categoryIcon: c.icon,
+          };
+          return (
+            <li key={item.id} className="border-t border-black/10 break-inside-avoid">
+              <ServiceItemButton item={preview} />
+            </li>
+          );
+        })}
       </ul>
     </section>
   );
 }
 
-/** Complete, grouped PDF service lists for the given categories. Jump links appear when a page carries several. */
+/**
+ * Complete, grouped service lists for the given categories, sharing one preview modal.
+ * Jump links appear when a page carries several categories.
+ */
 export default function ServiceCatalogue({ keys }: { keys: CatalogueKey[] }) {
   const cats = keys.map((k) => catalogueByKey[k]);
   const total = cats.reduce((n, c) => n + c.items.length, 0);
@@ -90,11 +71,13 @@ export default function ServiceCatalogue({ keys }: { keys: CatalogueKey[] }) {
           ))}
         </nav>
       )}
-      <div className="flex flex-col gap-4">
-        {cats.map((c) => (
-          <CategoryList key={c.key} c={c} />
-        ))}
-      </div>
+      <ServicePreviewProvider>
+        <div className="flex flex-col gap-4">
+          {cats.map((c) => (
+            <CategoryList key={c.key} c={c} />
+          ))}
+        </div>
+      </ServicePreviewProvider>
     </section>
   );
 }
